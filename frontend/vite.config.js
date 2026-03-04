@@ -7,5 +7,9 @@ export default defineConfig({
   server: {
     port: 3000,  // RoboSale uchun alohida port
     open: true   // Avtomatik brauzer ochadi
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true
   }
 })
