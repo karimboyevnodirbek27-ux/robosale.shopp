@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e88e5"/>
+      <stop offset="100%" style="stop-color:#1565c0"/>
+    </linearGradient>
+  </defs>
+  <!-- PCB Board -->
+  <rect x="20" y="40" width="160" height="120" rx="8" fill="url(#boardGrad)"/>
+  <!-- USB Port -->
+  <rect x="25" y="85" width="25" height="30" rx="2" fill="#424242"/>
+  <rect x="30" y="90" width="15" height="20" fill="#212121"/>
+  <!-- Power Jack -->
+  <circle cx="165" cy="100" r="12" fill="#424242"/>
+  <circle cx="165" cy="100" r="6" fill="#212121"/>
+  <!-- Chip -->
+  <rect x="70" y="70" width="50" height="50" rx="2" fill="#37474f"/>
+  <circle cx="78" cy="78" r="3" fill="#90a4ae"/>
+  <!-- Pins - Top -->
+  <g fill="#ffc107">
+    <rect x="40" y="35" width="4" height="10"/>
+    <rect x="50" y="35" width="4" height="10"/>
+    <rect x="60" y="35" width="4" height="10"/>
+    <rect x="70" y="35" width="4" height="10"/>
+    <rect x="80" y="35" width="4" height="10"/>
+    <rect x="90" y="35" width="4" height="10"/>
+  </g>
+  <!-- Pins - Bottom -->
+  <g fill="#ffc107">
+    <rect x="40" y="155" width="4" height="10"/>
+    <rect x="50" y="155" width="4" height="10"/>
+    <rect x="60" y="155" width="4" height="10"/>
+    <rect x="70" y="155" width="4" height="10"/>
+    <rect x="80" y="155" width="4" height="10"/>
+    <rect x="90" y="155" width="4" height="10"/>
+    <rect x="100" y="155" width="4" height="10"/>
+    <rect x="110" y="155" width="4" height="10"/>
+  </g>
+  <!-- LEDs -->
+  <circle cx="140" cy="60" r="4" fill="#4caf50"/>
+  <circle cx="150" cy="60" r="4" fill="#f44336"/>
+  <!-- Reset Button -->
+  <rect x="130" y="130" width="15" height="10" rx="2" fill="#424242"/>
+  <!-- Text -->
+  <text x="100" y="185" text-anchor="middle" font-family="Arial" font-size="10" fill="#1565c0" font-weight="bold">Arduino UNO</text>
+</svg>

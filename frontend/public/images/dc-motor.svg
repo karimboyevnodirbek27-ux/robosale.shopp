@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="motorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#78909c"/>
+      <stop offset="100%" style="stop-color:#546e7a"/>
+    </linearGradient>
+    <linearGradient id="gearboxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffc107"/>
+      <stop offset="100%" style="stop-color:#ffa000"/>
+    </linearGradient>
+  </defs>
+  <!-- Motor Body -->
+  <ellipse cx="130" cy="100" rx="35" ry="40" fill="url(#motorGrad)"/>
+  <rect x="100" y="60" width="30" height="80" fill="#78909c"/>
+  <!-- Motor Cap -->
+  <ellipse cx="165" cy="100" rx="8" ry="15" fill="#455a64"/>
+  <!-- Gearbox -->
+  <rect x="35" y="60" width="70" height="80" rx="4" fill="url(#gearboxGrad)"/>
+  <!-- Gearbox Details -->
+  <rect x="40" y="65" width="15" height="70" rx="2" fill="#ffb300"/>
+  <!-- Output Shaft -->
+  <rect x="20" y="92" width="20" height="16" fill="#bdbdbd"/>
+  <rect x="10" y="95" width="15" height="10" fill="#9e9e9e"/>
+  <!-- Wires -->
+  <circle cx="140" cy="145" r="4" fill="#ef5350"/>
+  <circle cx="155" cy="145" r="4" fill="#212121"/>
+  <path d="M140 149 L140 170" stroke="#ef5350" stroke-width="3" fill="none"/>
+  <path d="M155 149 L155 170" stroke="#212121" stroke-width="3" fill="none"/>
+  <!-- Mounting Holes -->
+  <circle cx="45" cy="75" r="4" fill="#8d6e63"/>
+  <circle cx="45" cy="125" r="4" fill="#8d6e63"/>
+  <!-- Label -->
+  <text x="100" y="185" text-anchor="middle" font-family="Arial" font-size="10" fill="#546e7a" font-weight="bold">DC Motor</text>
+</svg>

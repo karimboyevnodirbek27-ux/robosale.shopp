@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="servoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#37474f"/>
+      <stop offset="100%" style="stop-color:#263238"/>
+    </linearGradient>
+  </defs>
+  <!-- Servo Body -->
+  <rect x="35" y="60" width="130" height="80" rx="4" fill="url(#servoGrad)"/>
+  <!-- Output Gear -->
+  <circle cx="145" cy="100" r="20" fill="#546e7a"/>
+  <circle cx="145" cy="100" r="12" fill="#37474f"/>
+  <circle cx="145" cy="100" r="5" fill="#263238"/>
+  <!-- Mounting Tabs -->
+  <rect x="25" y="75" width="15" height="50" rx="2" fill="#455a64"/>
+  <circle cx="32" cy="85" r="4" fill="#263238"/>
+  <circle cx="32" cy="115" r="4" fill="#263238"/>
+  <!-- Label Area -->
+  <rect x="50" y="75" width="70" height="50" rx="2" fill="#455a64"/>
+  <text x="85" y="95" text-anchor="middle" font-family="Arial" font-size="10" fill="#eceff1" font-weight="bold">MG996R</text>
+  <text x="85" y="110" text-anchor="middle" font-family="Arial" font-size="7" fill="#90a4ae">SERVO</text>
+  <!-- Wires -->
+  <g fill="none" stroke-width="4" stroke-linecap="round">
+    <path d="M60 140 L60 165 L60 180" stroke="#8b4513"/>
+    <path d="M75 140 L75 165 L75 180" stroke="#ef5350"/>
+    <path d="M90 140 L90 165 L90 180" stroke="#ff9800"/>
+  </g>
+  <!-- Connector -->
+  <rect x="52" y="175" width="45" height="12" rx="2" fill="#212121"/>
+</svg>
