@@ -20,6 +20,12 @@ RoboSale/
 │   ├── models/         # MongoDB modellari
 │   ├── routes/         # API routelari
 │   └── server.js       # Asosiy server
+├── bot/                # Telegram bot
+│   ├── handlers/       # Katalog, savat, buyurtma, admin
+│   ├── models/         # MongoDB modellari
+│   ├── utils/          # Klaviaturalar
+│   ├── bot.js          # Botning kirish nuqtasi
+│   └── start-bot.bat   # Windows uchun ishga tushirish
 └── README.md
 ```
 
@@ -31,7 +37,12 @@ cd frontend
 npm install
 npm run dev
 ```
-Frontend http://localhost:5173 da ishlaydi.
+Frontend http://localhost:7878 da ishlaydi.
+
+`frontend/.env` faylida backend manzilini ko'rsating (namuna: `frontend/.env.example`):
+```
+VITE_API_URL=http://localhost:5000/api
+```
 
 ### Backend
 ```bash
@@ -44,8 +55,19 @@ Backend http://localhost:5000 da ishlaydi.
 ### Ma'lumotlar Bazasini To'ldirish
 ```bash
 cd backend
-node seed.js
+npm run seed:products   # mahsulotlar
+npm run seed:admin      # admin foydalanuvchisi (.env dagi ADMIN_* bo'yicha)
 ```
+
+> `backend/.env` faylini `backend/.env.example` asosida yarating. Admin paroli va JWT secret hech qachon GitHub'ga yuborilmaydi.
+
+### Telegram bot
+```bash
+cd bot
+npm install
+node bot.js
+```
+Windows'da `bot\start-bot.bat` faylini ikki marta bosish ham mumkin. Batafsil: [`bot/README.md`](./bot/README.md).
 
 ## 🛠 Texnologiyalar
 
@@ -75,9 +97,19 @@ node seed.js
 
 ## 💳 To'lov Usullari
 
-- Payme
-- Click  
-- Naqd pul
+- Naqd pul (hozircha faol)
+- Payme / Click / bo'lib to'lash (tez orada — merchant akkaunt kerak)
+
+## 🚀 Bepul deploy
+
+Cloudflare Pages + Render + MongoDB Atlas bo'yicha to'liq qo'llanma: [`DEPLOY.md`](./DEPLOY.md).
+
+## 🔐 Xavfsizlik
+
+- Admin API'lari JWT bilan himoyalangan (`protect` + `adminOnly`).
+- Buyurtma narxlari serverda qayta hisoblanadi.
+- Eski hardcoded admin login va botdagi backdoor olib tashlangan.
+- `.env` fayllari git'ga qo'shilmaydi.
 
 ## 📞 Aloqa
 

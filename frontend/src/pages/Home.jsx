@@ -6,10 +6,10 @@ import { ProductGridSkeleton } from '../components/Skeleton';
 import { categories, products as localProducts } from '../data/products';
 import { FiArrowRight, FiTruck, FiShield, FiHeadphones, FiCreditCard, FiPackage, FiZap } from 'react-icons/fi';
 import { FaTelegram } from 'react-icons/fa';
+import { API_URL } from '../config';
 import './Home.css';
 
 const TELEGRAM_LINK = 'https://t.me/Karimboyev_Nodirbek';
-const API_URL = 'http://localhost:5000/api';
 
 const Home = () => {
     const [showAllProducts, setShowAllProducts] = useState(false);

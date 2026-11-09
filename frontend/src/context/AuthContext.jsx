@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 const AuthContext = createContext();
 
@@ -9,8 +10,6 @@ export const useAuth = () => {
     }
     return context;
 };
-
-const API_URL = 'http://localhost:5000/api';
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
@@ -27,6 +26,17 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('token');
         }
     }, [token]);
+
+    // API 401 qaytarsa (token muddati tugagan), foydalanuvchini chiqarish
+    useEffect(() => {
+        const handleExpired = () => {
+            setUser(null);
+            setToken(null);
+        };
+
+        window.addEventListener('auth:expired', handleExpired);
+        return () => window.removeEventListener('auth:expired', handleExpired);
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -50,7 +60,7 @@ export const AuthProvider = ({ children }) => {
             }
             setUser(data.user);
             setToken(data.token);
-            return { success: true };
+            return { success: true, user: data.user };
         } catch (error) {
             return { success: false, message: error.message };
         } finally {
@@ -72,7 +82,7 @@ export const AuthProvider = ({ children }) => {
             }
             setUser(data.user);
             setToken(data.token);
-            return { success: true };
+            return { success: true, user: data.user };
         } catch (error) {
             return { success: false, message: error.message };
         } finally {

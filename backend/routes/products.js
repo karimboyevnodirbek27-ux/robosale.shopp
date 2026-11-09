@@ -1,31 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const { protect, adminOnly } = require('../middleware/auth');
 
 // @route   GET /api/products
-// @desc    Barcha mahsulotlarni olish
+// @desc    Barcha mahsulotlarni olish (ochiq)
 router.get('/', async (req, res) => {
     try {
         const { category, search, sort, featured, limit = 50, page = 1 } = req.query;
 
+        const limitNum = Math.min(Math.max(parseInt(limit, 10) || 50, 1), 200);
+        const pageNum = Math.max(parseInt(page, 10) || 1, 1);
+
         let query = {};
 
-        // Kategoriya bo'yicha filter
         if (category && category !== 'all') {
             query.category = category;
         }
 
-        // Qidiruv
         if (search) {
             query.$text = { $search: search };
         }
 
-        // Featured filter
         if (featured === 'true') {
             query.featured = true;
         }
 
-        // Sorting
         let sortOption = {};
         switch (sort) {
             case 'price-low':
@@ -44,12 +44,12 @@ router.get('/', async (req, res) => {
                 sortOption = { featured: -1, createdAt: -1 };
         }
 
-        const skip = (parseInt(page) - 1) * parseInt(limit);
+        const skip = (pageNum - 1) * limitNum;
 
         const [products, total] = await Promise.all([
             Product.find(query)
                 .sort(sortOption)
-                .limit(parseInt(limit))
+                .limit(limitNum)
                 .skip(skip),
             Product.countDocuments(query)
         ]);
@@ -58,8 +58,8 @@ router.get('/', async (req, res) => {
             success: true,
             count: products.length,
             total,
-            pages: Math.ceil(total / parseInt(limit)),
-            currentPage: parseInt(page),
+            pages: Math.ceil(total / limitNum),
+            currentPage: pageNum,
             products
         });
     } catch (error) {
@@ -67,8 +67,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+// @route   GET /api/products/category/:category
+// @desc    Kategoriya bo'yicha mahsulotlar (ochiq)
+// NOTE: bu route /:id dan oldin turishi shart
+router.get('/category/:category', async (req, res) => {
+    try {
+        const products = await Product.find({ category: req.params.category });
+        res.json({ success: true, count: products.length, products });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
 // @route   GET /api/products/:id
-// @desc    Bitta mahsulotni olish
+// @desc    Bitta mahsulotni olish (ochiq)
 router.get('/:id', async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
@@ -85,7 +97,7 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST /api/products
 // @desc    Yangi mahsulot qo'shish (Admin)
-router.post('/', async (req, res) => {
+router.post('/', protect, adminOnly, async (req, res) => {
     try {
         const product = await Product.create(req.body);
         res.status(201).json({ success: true, product });
@@ -96,7 +108,7 @@ router.post('/', async (req, res) => {
 
 // @route   PUT /api/products/:id
 // @desc    Mahsulotni yangilash (Admin)
-router.put('/:id', async (req, res) => {
+router.put('/:id', protect, adminOnly, async (req, res) => {
     try {
         const product = await Product.findByIdAndUpdate(
             req.params.id,
@@ -116,7 +128,7 @@ router.put('/:id', async (req, res) => {
 
 // @route   DELETE /api/products/:id
 // @desc    Mahsulotni o'chirish (Admin)
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', protect, adminOnly, async (req, res) => {
     try {
         const product = await Product.findByIdAndDelete(req.params.id);
 
@@ -125,17 +137,6 @@ router.delete('/:id', async (req, res) => {
         }
 
         res.json({ success: true, message: 'Mahsulot o\'chirildi' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-});
-
-// @route   GET /api/products/category/:category
-// @desc    Kategoriya bo'yicha mahsulotlar
-router.get('/category/:category', async (req, res) => {
-    try {
-        const products = await Product.find({ category: req.params.category });
-        res.json({ success: true, count: products.length, products });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }

@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiSearch, FiPackage, FiTruck, FiCheck, FiClock } from 'react-icons/fi';
 import { useToast } from '../context/ToastContext';
+import { API_URL } from '../config';
 import './OrderTracking.css';
-
-const API_URL = 'http://localhost:5000/api';
 
 const OrderTracking = () => {
     const [orderNumber, setOrderNumber] = useState('');
@@ -44,13 +43,14 @@ const OrderTracking = () => {
     };
 
     const getStatusStep = (status) => {
-        const steps = ['pending', 'processing', 'shipped', 'delivered'];
+        const steps = ['pending', 'confirmed', 'processing', 'shipped', 'delivered'];
         return steps.indexOf(status) + 1;
     };
 
     const getStatusText = (status) => {
         const texts = {
             pending: 'Kutilmoqda',
+            confirmed: 'Qabul qilindi',
             processing: 'Tayyorlanmoqda',
             shipped: 'Yo\'lda',
             delivered: 'Yetkazildi',

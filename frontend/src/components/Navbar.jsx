@@ -4,6 +4,7 @@ import { FiShoppingCart, FiMenu, FiX, FiUser, FiSun, FiMoon, FiSearch, FiHeart, 
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -18,9 +19,7 @@ const Navbar = () => {
     const totalItems = getTotalItems();
     const wishlistCount = getWishlistItems();
 
-    // Get user from localStorage
-    const user = JSON.parse(localStorage.getItem('robosale_user') || 'null');
-    const isAuthenticated = !!user;
+    const { user, isAuthenticated, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -48,9 +47,8 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('robosale_user');
-        localStorage.removeItem('robosale_token');
-        window.location.href = '/';
+        logout();
+        navigate('/');
     };
 
     // Don't show navbar on admin pages
@@ -144,11 +142,11 @@ const Navbar = () => {
                     {isAuthenticated ? (
                         <div className="user-panel">
                             <div className="user-avatar-box">
-                                <span className="user-avatar-letter">{user?.firstName?.[0] || 'U'}</span>
+                                <span className="user-avatar-letter">{user?.name?.[0] || 'U'}</span>
                             </div>
                             <div className="user-info-box">
                                 <span className="user-welcome-text">
-                                    <span className="user-name-text">{user?.firstName}</span>, xush kelibsiz! 👋
+                                    <span className="user-name-text">{user?.name}</span>, xush kelibsiz! 👋
                                 </span>
                             </div>
                             <button className="logout-btn-nav" onClick={handleLogout} title="Chiqish">

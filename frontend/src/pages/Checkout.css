@@ -147,6 +147,21 @@
     display: none;
 }
 
+.payment-option.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.payment-option.disabled:hover {
+    border-color: var(--border-color);
+}
+
+.coming-soon-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
 .payment-content {
     display: flex;
     flex-direction: column;

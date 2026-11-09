@@ -4,31 +4,41 @@ import {
     FiHome, FiPackage, FiShoppingBag, FiSettings,
     FiPlusCircle, FiEdit, FiTrash2, FiEye, FiSave,
     FiDollarSign, FiBox, FiClock, FiArrowLeft, FiImage,
-    FiLock, FiPhone, FiLogOut, FiUpload, FiLink
+    FiLock, FiMail, FiLogOut, FiUpload, FiLink
 } from 'react-icons/fi';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import { formatPrice, categories } from '../data/products';
+import { apiFetch, readJson } from '../lib/api';
 import './Admin.css';
 
-const API_URL = 'http://localhost:5000/api';
-
-// Admin credentials
-const ADMIN_PHONE = '+998507087845';
-const ADMIN_PASSWORD = '123456';
-
 // Admin Login Component
-const AdminLogin = ({ onLogin }) => {
-    const [phone, setPhone] = useState('');
+const AdminLogin = () => {
+    const { login, logout } = useAuth();
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (phone === ADMIN_PHONE && password === ADMIN_PASSWORD) {
-            localStorage.setItem('robosale_admin', 'true');
-            onLogin();
-        } else {
-            setError('Telefon raqam yoki parol noto\'g\'ri!');
+        setError('');
+        setSubmitting(true);
+
+        try {
+            const result = await login(email.trim().toLowerCase(), password);
+
+            if (!result.success) {
+                setError(result.message || 'Email yoki parol noto\'g\'ri!');
+                return;
+            }
+
+            if (result.user?.role !== 'admin') {
+                logout();
+                setError('Bu foydalanuvchi admin huquqiga ega emas');
+            }
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -45,12 +55,14 @@ const AdminLogin = ({ onLogin }) => {
                     {error && <div className="login-error">{error}</div>}
 
                     <div className="login-input-group">
-                        <FiPhone className="input-icon" />
+                        <FiMail className="input-icon" />
                         <input
-                            type="tel"
-                            placeholder="Telefon raqam"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            autoComplete="username"
+                            required
                         />
                     </div>
 
@@ -61,11 +73,13 @@ const AdminLogin = ({ onLogin }) => {
                             placeholder="Parol"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            autoComplete="current-password"
+                            required
                         />
                     </div>
 
-                    <button type="submit" className="login-submit">
-                        Kirish
+                    <button type="submit" className="login-submit" disabled={submitting}>
+                        {submitting ? 'Kirilmoqda...' : 'Kirish'}
                     </button>
                 </form>
 
@@ -95,9 +109,9 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
         try {
             const [productsRes, ordersRes, statsRes] = await Promise.all([
-                fetch(`${API_URL}/products?limit=1`),
-                fetch(`${API_URL}/orders?limit=5`),
-                fetch(`${API_URL}/orders/stats/summary`)
+                apiFetch('/products?limit=1'),
+                apiFetch('/orders?limit=5'),
+                apiFetch('/orders/stats/summary')
             ]);
 
             const productsData = await productsRes.json();
@@ -221,7 +235,7 @@ const ProductForm = () => {
     const fetchProduct = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/products/${id}`);
+            const res = await apiFetch(`/products/${id}`);
             const data = await res.json();
             if (data.success) {
                 const p = data.product;
@@ -273,18 +287,17 @@ const ProductForm = () => {
             const formDataUpload = new FormData();
             formDataUpload.append('image', file);
 
-            const res = await fetch(`${API_URL}/upload`, {
+            const res = await apiFetch('/upload', {
                 method: 'POST',
                 body: formDataUpload
             });
 
             const data = await res.json();
-            if (data.success) {
-                // Backend URL bilan to'liq URL yaratish
-                const fullImageUrl = `http://localhost:5000${data.imageUrl}`;
+            if (res.ok && data.success) {
+                // Backend to'liq URL qaytaradi (Cloudinary yoki lokal /uploads)
                 setFormData(prev => ({
                     ...prev,
-                    image: fullImageUrl
+                    image: data.imageUrl
                 }));
                 toast.success('Rasm muvaffaqiyatli yuklandi!');
             } else {
@@ -308,12 +321,11 @@ const ProductForm = () => {
 
         setSaving(true);
         try {
-            const url = isEdit ? `${API_URL}/products/${id}` : `${API_URL}/products`;
+            const url = isEdit ? `/products/${id}` : '/products';
             const method = isEdit ? 'PUT' : 'POST';
 
-            const res = await fetch(url, {
+            const res = await apiFetch(url, {
                 method,
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...formData,
                     price: Number(formData.price),
@@ -322,14 +334,14 @@ const ProductForm = () => {
             });
 
             const data = await res.json();
-            if (data.success) {
+            if (res.ok && data.success) {
                 toast.success(isEdit ? 'Mahsulot yangilandi!' : 'Mahsulot qo\'shildi!');
                 navigate('/admin/products', { preventScrollReset: true });
             } else {
                 toast.error(data.message || 'Xatolik yuz berdi');
             }
         } catch (error) {
-            toast.error('Server xatoligi');
+            toast.error(error.message || 'Server xatoligi');
         } finally {
             setSaving(false);
         }
@@ -558,7 +570,7 @@ const ProductsManagement = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await fetch(`${API_URL}/products?limit=100`);
+            const res = await apiFetch('/products?limit=100');
             const data = await res.json();
             if (data.success) {
                 setProducts(data.products);
@@ -574,11 +586,13 @@ const ProductsManagement = () => {
         if (!confirm('Rostdan o\'chirmoqchimisiz?')) return;
 
         try {
-            const res = await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
+            const res = await apiFetch(`/products/${id}`, { method: 'DELETE' });
             const data = await res.json();
-            if (data.success) {
+            if (res.ok && data.success) {
                 setProducts(prev => prev.filter(p => p._id !== id));
                 toast.success('Mahsulot o\'chirildi');
+            } else {
+                toast.error(data.message || 'O\'chirishda xatolik');
             }
         } catch (error) {
             toast.error('O\'chirishda xatolik');
@@ -691,13 +705,15 @@ const OrdersManagement = () => {
 
     const fetchOrders = async () => {
         try {
-            let url = `${API_URL}/orders?limit=50`;
+            let url = `/orders?limit=50`;
             if (filter !== 'all') url += `&status=${filter}`;
 
-            const res = await fetch(url);
+            const res = await apiFetch(url);
             const data = await res.json();
-            if (data.success) {
+            if (res.ok && data.success) {
                 setOrders(data.orders);
+            } else {
+                toast.error(data.message || 'Buyurtmalarni yuklashda xatolik');
             }
         } catch (error) {
             toast.error('Buyurtmalarni yuklashda xatolik');
@@ -708,26 +724,29 @@ const OrdersManagement = () => {
 
     const updateStatus = async (orderId, newStatus) => {
         try {
-            const res = await fetch(`${API_URL}/orders/${orderId}/status`, {
+            const res = await apiFetch(`/orders/${orderId}/status`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ orderStatus: newStatus })
             });
             const data = await res.json();
-            if (data.success) {
+            if (res.ok && data.success) {
                 setOrders(prev => prev.map(o =>
                     o._id === orderId ? { ...o, orderStatus: newStatus } : o
                 ));
                 toast.success('Status yangilandi');
+            } else {
+                toast.error(data.message || 'Statusni yangilashda xatolik');
+                fetchOrders();
             }
         } catch (error) {
             toast.error('Xatolik yuz berdi');
         }
     };
 
-    const statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    const statuses = ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'];
     const statusLabels = {
         pending: 'Kutilmoqda',
+        confirmed: 'Qabul qilindi',
         processing: 'Tayyorlanmoqda',
         shipped: 'Yo\'lda',
         delivered: 'Yetkazildi',
@@ -810,21 +829,14 @@ const OrdersManagement = () => {
 // Main Admin Component
 const Admin = () => {
     const location = useLocation();
-    const navigate = useNavigate();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const isAdmin = localStorage.getItem('robosale_admin') === 'true';
-        setIsLoggedIn(isAdmin);
-    }, []);
+    const { isAdmin, logout } = useAuth();
 
     const handleLogout = () => {
-        localStorage.removeItem('robosale_admin');
-        setIsLoggedIn(false);
+        logout();
     };
 
-    if (!isLoggedIn) {
-        return <AdminLogin onLogin={() => setIsLoggedIn(true)} />;
+    if (!isAdmin) {
+        return <AdminLogin />;
     }
 
     const menuItems = [

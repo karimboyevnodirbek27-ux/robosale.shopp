@@ -37,7 +37,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ['payme', 'click', 'cash'],
+        enum: ['payme', 'click', 'cash', 'installment'],
         default: 'cash'
     },
     paymentStatus: {
@@ -63,16 +63,23 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     deliveredAt: Date,
-    paidAt: Date
+    paidAt: Date,
+    // Bekor qilinganda ombor qaytarilganini belgilash uchun
+    stockRestored: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 });
 
-// Generate order number before saving
-orderSchema.pre('save', async function (next) {
+// Generate order number before saving.
+// Vaqt + tasodifiy qism ishlatiladi, countDocuments race condition'i oldini oladi.
+orderSchema.pre('save', function (next) {
     if (!this.orderNumber) {
-        const count = await mongoose.model('Order').countDocuments();
-        this.orderNumber = `RB${Date.now().toString().slice(-6)}${(count + 1).toString().padStart(4, '0')}`;
+        const timestamp = Date.now().toString().slice(-8);
+        const random = Math.floor(100 + Math.random() * 900);
+        this.orderNumber = `RB${timestamp}${random}`;
     }
     next();
 });

@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiLock, FiUser, FiPhone, FiEye, FiEyeOff, FiAlertCircle, FiLogIn } from 'react-icons/fi';
+import { FiLock, FiUser, FiPhone, FiMail, FiEye, FiEyeOff, FiAlertCircle, FiLogIn } from 'react-icons/fi';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
 const Auth = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const toast = useToast();
+    const { login, register, isAuthenticated } = useAuth();
 
     const [isLogin, setIsLogin] = useState(location.pathname !== '/register');
     const [showPassword, setShowPassword] = useState(false);
@@ -16,18 +18,18 @@ const Auth = () => {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
+        email: '',
         phone: '',
         password: '',
         confirmPassword: ''
     });
 
-    // Check if already logged in
+    // Allaqachon kirgan bo'lsa, bosh sahifaga qaytarish
     useEffect(() => {
-        const user = localStorage.getItem('robosale_user');
-        if (user) {
+        if (isAuthenticated) {
             navigate('/');
         }
-    }, [navigate]);
+    }, [isAuthenticated, navigate]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -74,20 +76,27 @@ const Auth = () => {
         if (!isLogin) {
             if (!formData.firstName.trim()) newErrors.firstName = 'Ism kiritilishi shart';
             if (!formData.lastName.trim()) newErrors.lastName = 'Familiya kiritilishi shart';
-            if (formData.password !== formData.confirmPassword) {
-                newErrors.confirmPassword = 'Parollar mos kelmayapti';
+
+            const phoneDigits = formData.phone.replace(/-/g, '');
+            if (!phoneDigits || phoneDigits.length !== 9) {
+                newErrors.phone = 'To\'liq telefon raqam kiritilishi shart (9 ta raqam)';
             }
         }
 
-        const phoneDigits = formData.phone.replace(/-/g, '');
-        if (!phoneDigits || phoneDigits.length !== 9) {
-            newErrors.phone = 'To\'liq telefon raqam kiritilishi shart (9 ta raqam)';
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email kiritilishi shart';
+        } else if (!/^\S+@\S+\.\S+$/.test(formData.email.trim())) {
+            newErrors.email = 'Email formati noto\'g\'ri';
         }
 
         if (!formData.password.trim()) {
             newErrors.password = 'Parol kiritilishi shart';
         } else if (formData.password.length < 6) {
             newErrors.password = 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak';
+        }
+
+        if (!isLogin && formData.password !== formData.confirmPassword) {
+            newErrors.confirmPassword = 'Parollar mos kelmayapti';
         }
 
         setErrors(newErrors);
@@ -103,47 +112,36 @@ const Auth = () => {
         }
 
         setLoading(true);
-        const fullPhone = getFullPhone();
 
-        if (isLogin) {
-            // Login
-            const users = JSON.parse(localStorage.getItem('robosale_users') || '[]');
-            const user = users.find(u => u.phone === fullPhone && u.password === formData.password);
+        try {
+            if (isLogin) {
+                const result = await login(formData.email.trim().toLowerCase(), formData.password);
 
-            if (user) {
-                localStorage.setItem('robosale_user', JSON.stringify(user));
-                localStorage.setItem('robosale_token', 'user_token_' + Date.now());
-                toast.success(`${user.firstName}, xush kelibsiz!`);
-                // Redirect to home
-                window.location.href = '/';
+                if (!result.success) {
+                    toast.error(result.message || 'Email yoki parol noto\'g\'ri');
+                    return;
+                }
+
+                toast.success('Xush kelibsiz!');
+                navigate('/');
             } else {
-                toast.error('Telefon raqam yoki parol noto\'g\'ri');
-                setLoading(false);
-            }
-        } else {
-            // Registration
-            const users = JSON.parse(localStorage.getItem('robosale_users') || '[]');
-            const exists = users.find(u => u.phone === fullPhone);
-
-            if (exists) {
-                toast.error('Bu raqam bilan foydalanuvchi mavjud');
-                setLoading(false);
-            } else {
-                const newUser = {
-                    id: Date.now(),
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    phone: fullPhone,
+                const result = await register({
+                    name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
+                    email: formData.email.trim().toLowerCase(),
+                    phone: getFullPhone(),
                     password: formData.password
-                };
-                users.push(newUser);
-                localStorage.setItem('robosale_users', JSON.stringify(users));
-                localStorage.setItem('robosale_user', JSON.stringify(newUser));
-                localStorage.setItem('robosale_token', 'user_token_' + Date.now());
-                toast.success(`${newUser.firstName}, ro'yxatdan muvaffaqiyatli o'tdingiz!`);
-                // Redirect to home
-                window.location.href = '/';
+                });
+
+                if (!result.success) {
+                    toast.error(result.message || 'Ro\'yxatdan o\'tishda xatolik');
+                    return;
+                }
+
+                toast.success('Ro\'yxatdan muvaffaqiyatli o\'tdingiz!');
+                navigate('/');
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -232,21 +230,39 @@ const Auth = () => {
                                 </div>
                             )}
 
-                            <div className={`input-group ${errors.phone ? 'error' : ''}`}>
-                                <label>Telefon raqam</label>
-                                <div className="input-with-icon phone-input">
-                                    <span className="phone-prefix">+998</span>
+                            <div className={`input-group ${errors.email ? 'error' : ''}`}>
+                                <label>Email</label>
+                                <div className="input-with-icon">
+                                    <FiMail className="input-icon" />
                                     <input
-                                        type="tel"
-                                        name="phone"
-                                        placeholder="90-123-45-67"
-                                        value={formData.phone}
-                                        onChange={handlePhoneChange}
-                                        maxLength="12"
+                                        type="email"
+                                        name="email"
+                                        placeholder="email@example.com"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        autoComplete="email"
                                     />
                                 </div>
-                                {errors.phone && <span className="error-text"><FiAlertCircle /> {errors.phone}</span>}
+                                {errors.email && <span className="error-text"><FiAlertCircle /> {errors.email}</span>}
                             </div>
+
+                            {!isLogin && (
+                                <div className={`input-group ${errors.phone ? 'error' : ''}`}>
+                                    <label>Telefon raqam</label>
+                                    <div className="input-with-icon phone-input">
+                                        <span className="phone-prefix">+998</span>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            placeholder="90-123-45-67"
+                                            value={formData.phone}
+                                            onChange={handlePhoneChange}
+                                            maxLength="12"
+                                        />
+                                    </div>
+                                    {errors.phone && <span className="error-text"><FiAlertCircle /> {errors.phone}</span>}
+                                </div>
+                            )}
 
                             <div className={`input-group ${errors.password ? 'error' : ''}`}>
                                 <label>Parol</label>

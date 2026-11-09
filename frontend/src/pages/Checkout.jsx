@@ -4,15 +4,14 @@ import { FiCreditCard, FiCheck, FiAlertCircle } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { formatPrice, getImageUrl } from '../data/products';
+import { API_URL } from '../config';
 import './Checkout.css';
-
-const API_URL = 'http://localhost:5000/api';
 
 const Checkout = () => {
     const navigate = useNavigate();
     const { cartItems, getTotalPrice, clearCart } = useCart();
     const toast = useToast();
-    const [paymentMethod, setPaymentMethod] = useState('payme');
+    const [paymentMethod, setPaymentMethod] = useState('cash');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [orderComplete, setOrderComplete] = useState(false);
     const [orderNumber, setOrderNumber] = useState('');
@@ -61,14 +60,12 @@ const Checkout = () => {
         setIsSubmitting(true);
 
         try {
-            // Prepare order data
+            // Faqat serverga kerakli ma'lumot yuboriladi.
+            // Narxlar serverda qayta hisoblanadi, shuning uchun price yuborilmaydi.
             const orderData = {
                 items: cartItems.map(item => ({
                     product: item._id || item.id,
-                    name: item.name,
-                    price: item.price,
-                    quantity: item.quantity,
-                    image: item.image
+                    quantity: item.quantity
                 })),
                 shippingAddress: {
                     firstName: formData.firstName,
@@ -79,12 +76,9 @@ const Checkout = () => {
                     address: formData.address,
                     notes: formData.notes
                 },
-                paymentMethod,
-                itemsTotal: getTotalPrice(),
-                shippingCost: 0
+                paymentMethod
             };
 
-            // Send to backend API
             const response = await fetch(`${API_URL}/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -93,22 +87,18 @@ const Checkout = () => {
 
             const data = await response.json();
 
-            if (data.success) {
-                setOrderNumber(data.order.orderNumber);
-                setOrderComplete(true);
-                clearCart();
-                toast.success('Buyurtma muvaffaqiyatli qabul qilindi!');
-            } else {
-                throw new Error(data.message);
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || 'Buyurtma yuborilmadi');
             }
-        } catch (error) {
-            console.error('Order error:', error);
-            // If backend fails, still show success for demo
-            const fakeOrderNumber = 'RB' + Date.now().toString().slice(-6);
-            setOrderNumber(fakeOrderNumber);
+
+            setOrderNumber(data.order.orderNumber);
             setOrderComplete(true);
             clearCart();
-            toast.success('Buyurtma qabul qilindi!');
+            toast.success('Buyurtma muvaffaqiyatli qabul qilindi!');
+        } catch (error) {
+            console.error('Order error:', error);
+            // Backend xato bersa, soxta muvaffaqiyat ko'rsatmaymiz.
+            toast.error(error.message || 'Buyurtma yuborishda xatolik yuz berdi');
         } finally {
             setIsSubmitting(false);
         }
@@ -251,34 +241,6 @@ const Checkout = () => {
                         <div className="form-section">
                             <h3>💳 To'lov usuli</h3>
                             <div className="payment-methods">
-                                <label className={`payment-option ${paymentMethod === 'payme' ? 'active' : ''}`}>
-                                    <input
-                                        type="radio"
-                                        name="payment"
-                                        value="payme"
-                                        checked={paymentMethod === 'payme'}
-                                        onChange={(e) => setPaymentMethod(e.target.value)}
-                                    />
-                                    <div className="payment-content">
-                                        <div className="payment-logo payme">Payme</div>
-                                        <span>Karta orqali to'lash</span>
-                                    </div>
-                                </label>
-
-                                <label className={`payment-option ${paymentMethod === 'click' ? 'active' : ''}`}>
-                                    <input
-                                        type="radio"
-                                        name="payment"
-                                        value="click"
-                                        checked={paymentMethod === 'click'}
-                                        onChange={(e) => setPaymentMethod(e.target.value)}
-                                    />
-                                    <div className="payment-content">
-                                        <div className="payment-logo click">Click</div>
-                                        <span>Karta orqali to'lash</span>
-                                    </div>
-                                </label>
-
                                 <label className={`payment-option ${paymentMethod === 'cash' ? 'active' : ''}`}>
                                     <input
                                         type="radio"
@@ -289,21 +251,34 @@ const Checkout = () => {
                                     />
                                     <div className="payment-content">
                                         <span className="payment-icon">💵</span>
-                                        <span>Naqd pul</span>
+                                        <span>Naqd pul (yetkazib berishda)</span>
                                     </div>
                                 </label>
 
-                                <label className={`payment-option ${paymentMethod === 'installment' ? 'active' : ''}`}>
-                                    <input
-                                        type="radio"
-                                        name="payment"
-                                        value="installment"
-                                        checked={paymentMethod === 'installment'}
-                                        onChange={(e) => setPaymentMethod(e.target.value)}
-                                    />
+                                <label className="payment-option disabled">
+                                    <input type="radio" name="payment" value="payme" disabled />
+                                    <div className="payment-content">
+                                        <div className="payment-logo payme">Payme</div>
+                                        <span>Karta orqali to'lash</span>
+                                        <small className="coming-soon-label">Tez orada</small>
+                                    </div>
+                                </label>
+
+                                <label className="payment-option disabled">
+                                    <input type="radio" name="payment" value="click" disabled />
+                                    <div className="payment-content">
+                                        <div className="payment-logo click">Click</div>
+                                        <span>Karta orqali to'lash</span>
+                                        <small className="coming-soon-label">Tez orada</small>
+                                    </div>
+                                </label>
+
+                                <label className="payment-option disabled">
+                                    <input type="radio" name="payment" value="installment" disabled />
                                     <div className="payment-content">
                                         <span className="payment-icon">📅</span>
                                         <span>Bo'lib to'lash</span>
+                                        <small className="coming-soon-label">Tez orada</small>
                                     </div>
                                 </label>
                             </div>

@@ -6,9 +6,8 @@ import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { ProductDetailSkeleton } from '../components/Skeleton';
 import { formatPrice, getImageUrl } from '../data/products';
+import { API_URL } from '../config';
 import './ProductDetail.css';
-
-const API_URL = 'http://localhost:5000/api';
 
 const ProductDetail = () => {
     const { id } = useParams();

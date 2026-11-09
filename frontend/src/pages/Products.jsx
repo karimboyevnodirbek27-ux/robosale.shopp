@@ -4,9 +4,8 @@ import { FiGrid, FiList, FiFilter, FiSearch, FiX } from 'react-icons/fi';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { categories } from '../data/products';
+import { API_URL } from '../config';
 import './Products.css';
-
-const API_URL = 'http://localhost:5000/api';
 
 const Products = () => {
     const [searchParams, setSearchParams] = useSearchParams();
