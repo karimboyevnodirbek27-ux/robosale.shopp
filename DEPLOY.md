@@ -68,20 +68,22 @@ MongoDB Atlas M0 (bepul 512 MB)
 
 ## 2. Render — backend (bepul)
 
-1. Kodni GitHub'ga push qiling:
+0. Avval repo'ni GitHub'ga push qiling:
    ```powershell
    cd C:\Users\adikcyber\Desktop\RoboSale
-   git add .
-   git commit -m "Security fixes + production deploy config"
+   git remote -v   # URL to'g'rimi?
    git push origin main
    ```
-2. https://render.com → **New** → **Blueprint** (repo'da `render.yaml` bor) yoki **Web Service**.
+   `Repository not found` chiqsa: repo o'chirilgan/nomlangan yoki private va login yo'q.
+   https://github.com/new da `RoboSale` nomli repo yarating va
+   `git remote set-url origin https://github.com/<foydalanuvchi>/RoboSale.git` qilib qayta push qiling.
+1. https://render.com → **New** → **Blueprint** (repo'da `render.yaml` bor) yoki **Web Service**.
    - Repository: `karimboyevnodirbek27-ux/RoboSale`
    - Root Directory: `backend`
    - Build Command: `npm install`
    - Start Command: `npm start`
    - Plan: **Free**
-3. **Environment** bo'limida quyidagilarni kiriting:
+2. **Environment** bo'limida quyidagilarni kiriting:
 
    | Key | Value |
    |---|---|
@@ -98,7 +100,7 @@ MongoDB Atlas M0 (bepul 512 MB)
    | `TELEGRAM_ADMIN_ID` | sizning Telegram ID'ingiz (ixtiyoriy) |
    | `CLOUDINARY_*` | 4-bo'limdan keyin (ixtiyoriy) |
 
-4. Deploy tugagach tekshiring:
+3. Deploy tugagach tekshiring:
    ```
    https://robosale-api.onrender.com/health
    ```
