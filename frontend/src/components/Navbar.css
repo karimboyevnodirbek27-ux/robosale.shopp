@@ -399,9 +399,10 @@
         display: none;
     }
 
-    .theme-toggle,
-    .wishlist-btn,
-    .user-menu-wrapper {
+    .navbar-actions .action-btn.theme-toggle,
+    .navbar-actions .action-btn.wishlist-btn,
+    .navbar-actions .action-btn.cart-btn,
+    .navbar-actions .user-menu-wrapper {
         display: none;
     }
 
