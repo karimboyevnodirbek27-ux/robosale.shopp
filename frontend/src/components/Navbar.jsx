@@ -135,6 +135,15 @@ const Navbar = () => {
                     />
                 </form>
 
+                {/* Mobile: qidiruv ikonasi */}
+                <button
+                    className="mobile-search-btn"
+                    onClick={() => navigate('/products')}
+                    aria-label="Qidirish"
+                >
+                    <FiSearch size={20} />
+                </button>
+
                 {/* Actions */}
                 <div className="navbar-actions">
                     <button

@@ -1,0 +1,81 @@
+/* Mobile Tab Bar - faqat 768px va undan pastda ko'rinadi */
+.mobile-tabbar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-tabbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1100;
+        display: flex;
+        align-items: stretch;
+        justify-content: space-around;
+        padding: 0.5rem 0.25rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+        background: rgba(11, 16, 32, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .mobile-tab {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.125rem;
+        padding: 0.25rem 0.25rem;
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        border-radius: var(--radius-lg);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .mobile-tab.active {
+        color: var(--primary);
+    }
+
+    .mobile-tab-icon {
+        position: relative;
+        font-size: 1.375rem;
+        line-height: 1;
+        transition: transform 0.2s ease;
+    }
+
+    .mobile-tab:active .mobile-tab-icon {
+        transform: scale(1.15);
+    }
+
+    .mobile-tab-label {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+    }
+
+    .mobile-tab-badge {
+        position: absolute;
+        top: -6px;
+        right: -12px;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 5px;
+        font-size: 0.625rem;
+        font-weight: 700;
+        color: #fff;
+        background: var(--gradient-primary);
+        border-radius: var(--radius-full);
+        box-shadow: 0 2px 6px rgba(var(--primary-rgb), 0.4);
+    }
+
+    /* Kontent tabbardan yuqorida ko'rinishi uchun */
+    .app .main-content {
+        padding-bottom: 68px;
+    }
+}

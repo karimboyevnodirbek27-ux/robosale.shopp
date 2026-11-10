@@ -18,7 +18,7 @@ const Hero = () => {
                 <div className="hero-content">
                     <div className="hero-badge animate-fadeIn">
                         <FiZap className="badge-icon" />
-                        <span>Yangi mahsulotlar yetib keldi!</span>
+                        <span>Kelajak texnologiyalari</span>
                     </div>
 
                     <h1 className="hero-title animate-fadeInUp">

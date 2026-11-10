@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import MobileTabBar from './components/MobileTabBar';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
@@ -44,6 +45,7 @@ function App() {
                     </Routes>
                   </main>
                   <Footer />
+                  <MobileTabBar />
                 </div>
               </Router>
             </ToastProvider>

@@ -4,7 +4,7 @@ import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { categories, products as localProducts } from '../data/products';
-import { FiArrowRight, FiTruck, FiShield, FiHeadphones, FiCreditCard, FiPackage, FiZap } from 'react-icons/fi';
+import { FiArrowRight, FiTruck, FiShield, FiHeadphones, FiPackage, FiZap } from 'react-icons/fi';
 import { FaTelegram } from 'react-icons/fa';
 import { API_URL } from '../config';
 import './Home.css';
@@ -48,28 +48,22 @@ const Home = () => {
 
     const features = [
         {
-            icon: <FiPackage />,
-            title: 'Original mahsulotlar',
-            description: 'Sifatli va kafolatlangan',
-            link: null
-        },
-        {
             icon: <FiTruck />,
-            title: 'Tezkor yetkazish',
+            title: 'Tez yetkazib berish',
             description: 'Beruniy bo\'ylab 1-2 kunda',
             link: null
         },
         {
-            icon: <FaTelegram />,
-            title: 'Texnik yordam',
-            description: '24/7 Telegram qo\'llab-quvvatlash',
-            link: TELEGRAM_LINK
+            icon: <FiShield />,
+            title: 'Sifat kafolati',
+            description: 'Original mahsulotlar',
+            link: null
         },
         {
-            icon: <FiCreditCard />,
-            title: 'Qulay to\'lov',
-            description: 'Naqd, karta, Click',
-            link: null
+            icon: <FiHeadphones />,
+            title: '24/7 Yordam',
+            description: 'Telegram orqali yordam',
+            link: TELEGRAM_LINK
         }
     ];
 
@@ -77,65 +71,7 @@ const Home = () => {
         <div className="home-page">
             <Hero />
 
-            {/* Categories Section */}
-            <section className="categories-section">
-                <div className="container">
-                    <div className="categories-grid">
-                        {categories.map((category) => (
-                            <Link
-                                key={category.id}
-                                to={`/products?category=${category.id}`}
-                                className="category-card"
-                            >
-                                <div className="category-icon-wrapper">
-                                    <span className="category-icon">{category.icon}</span>
-                                </div>
-                                <h3>{category.name}</h3>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Products Section - More Products */}
-            <section className="featured-section">
-                <div className="container">
-                    <div className="section-header">
-                        <div className="section-title">
-                            <h2>Mahsulotlar</h2>
-                            <p>Arduino, sensorlar, motorlar va robot kitlar</p>
-                        </div>
-                        <Link to="/products" className="view-all-btn">
-                            <span>Barchasini ko'rish</span>
-                            <FiArrowRight />
-                        </Link>
-                    </div>
-
-                    {loading ? (
-                        <ProductGridSkeleton count={8} />
-                    ) : (
-                        <div className="products-grid grid grid-4">
-                            {displayProducts.map(product => (
-                                <ProductCard key={product._id || product.id} product={product} />
-                            ))}
-                        </div>
-                    )}
-
-                    {!loading && !showAllProducts && allProducts.length > 12 && (
-                        <div className="load-more-container">
-                            <button
-                                className="btn btn-secondary btn-lg load-more-btn"
-                                onClick={() => setShowAllProducts(true)}
-                            >
-                                <span>Ko'proq ko'rish ({allProducts.length - 12} ta qoldi)</span>
-                                <FiArrowRight />
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </section>
-
-            {/* Features Section */}
+            {/* Features Section (mockup: 3 ta tile) */}
             <section className="features-section">
                 <div className="container">
                     <div className="features-grid">
@@ -174,6 +110,73 @@ const Home = () => {
                             )
                         ))}
                     </div>
+                </div>
+            </section>
+
+            {/* Categories Section */}
+            <section className="categories-section">
+                <div className="container">
+                    <div className="section-header">
+                        <div className="section-title">
+                            <h2>Kategoriyalar</h2>
+                        </div>
+                        <Link to="/products" className="view-all-btn">
+                            <span>Barchasini ko'rish</span>
+                            <FiArrowRight />
+                        </Link>
+                    </div>
+                    <div className="categories-grid">
+                        {categories.map((category) => (
+                            <Link
+                                key={category.id}
+                                to={`/products?category=${category.id}`}
+                                className="category-card"
+                            >
+                                <div className="category-icon-wrapper">
+                                    <span className="category-icon">{category.icon}</span>
+                                </div>
+                                <h3>{category.name}</h3>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Products Section - More Products */}
+            <section className="featured-section">
+                <div className="container">
+                    <div className="section-header">
+                        <div className="section-title">
+                            <h2>Mashhur mahsulotlar 🔥</h2>
+                            <p>Eng ko'p sotilayotgan Arduino, sensorlar, motorlar</p>
+                        </div>
+                        <Link to="/products" className="view-all-btn">
+                            <span>Barchasini ko'rish</span>
+                            <FiArrowRight />
+                        </Link>
+                    </div>
+
+                    {loading ? (
+                        <ProductGridSkeleton count={8} />
+                    ) : (
+                        <div className="products-grid grid grid-4">
+                            {displayProducts.map(product => (
+                                <ProductCard key={product._id || product.id} product={product} />
+                            ))}
+                        </div>
+                    )}
+
+                    {!loading && !showAllProducts && allProducts.length > 12 && (
+                        <div className="load-more-container">
+                            <button
+                                className="btn btn-secondary btn-lg load-more-btn"
+                                onClick={() => setShowAllProducts(true)}
+                            >
+                                <span>Ko'proq ko'rish ({allProducts.length - 12} ta qoldi)</span>
+                                <FiArrowRight />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </section>
 
