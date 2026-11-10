@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiShoppingCart, FiMenu, FiX, FiUser, FiSun, FiMoon, FiSearch, FiHeart, FiLogOut } from 'react-icons/fi';
+import { FiShoppingCart, FiMenu, FiX, FiUser, FiSun, FiMoon, FiSearch, FiHeart, FiLogOut, FiChevronDown, FiSettings } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -11,6 +11,8 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const userMenuRef = useRef(null);
     const { getTotalItems } = useCart();
     const { getTotalItems: getWishlistItems } = useWishlist();
     const { isDark, toggleTheme } = useTheme();
@@ -28,6 +30,26 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Tashqariga bosilganda foydalanuvchi menyusini yopish
+    useEffect(() => {
+        if (!userMenuOpen) return;
+
+        const handleClickOutside = (event) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+                setUserMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [userMenuOpen]);
+
+    // Sahifa almashganda menyuni yopish
+    useEffect(() => {
+        setUserMenuOpen(false);
+        setIsMenuOpen(false);
+    }, [location.pathname, location.search]);
 
     const navLinks = [
         { path: '/', label: 'Asosiy' },
@@ -47,6 +69,7 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
+        setUserMenuOpen(false);
         logout();
         navigate('/');
     };
@@ -140,18 +163,42 @@ const Navbar = () => {
                     </Link>
 
                     {isAuthenticated ? (
-                        <div className="user-panel">
-                            <div className="user-avatar-box">
-                                <span className="user-avatar-letter">{user?.name?.[0] || 'U'}</span>
-                            </div>
-                            <div className="user-info-box">
-                                <span className="user-welcome-text">
-                                    <span className="user-name-text">{user?.name}</span>, xush kelibsiz! 👋
+                        <div className="user-menu-wrapper" ref={userMenuRef}>
+                            <button
+                                className="user-chip"
+                                onClick={() => setUserMenuOpen(open => !open)}
+                                title={user?.name || 'Menu'}
+                                aria-expanded={userMenuOpen}
+                            >
+                                <span className="user-chip-avatar">
+                                    {(user?.name?.[0] || 'U').toUpperCase()}
                                 </span>
-                            </div>
-                            <button className="logout-btn-nav" onClick={handleLogout} title="Chiqish">
-                                <FiLogOut size={18} />
+                                <span className="user-chip-name">
+                                    {user?.name?.split(' ')[0] || 'Foydalanuvchi'}
+                                </span>
+                                <FiChevronDown className={`user-chip-chevron ${userMenuOpen ? 'open' : ''}`} />
                             </button>
+
+                            {userMenuOpen && (
+                                <div className="user-dropdown" role="menu">
+                                    <div className="user-info">
+                                        <span className="user-name">{user?.name}</span>
+                                        <span className="user-email">{user?.email}</span>
+                                        {user?.role === 'admin' && (
+                                            <span className="admin-badge"><FiSettings /> Admin</span>
+                                        )}
+                                    </div>
+                                    <div className="dropdown-divider" />
+                                    {user?.role === 'admin' && (
+                                        <Link to="/admin" className="dropdown-item" role="menuitem">
+                                            <FiSettings /> Admin panel
+                                        </Link>
+                                    )}
+                                    <button className="dropdown-item logout" onClick={handleLogout} role="menuitem">
+                                        <FiLogOut /> Chiqish
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     ) : (
                         <Link to="/login" className="login-btn">
