@@ -94,6 +94,9 @@ const Footer = () => {
                 <div className="footer-bottom">
                     <p>&copy; {currentYear} RoboSale. Barcha huquqlar himoyalangan.</p>
                     <div className="footer-bottom-links">
+                        <a href="/CREDITS.md" target="_blank" rel="noopener">
+                            📷 Rasmlar manbasi
+                        </a>
                         <a href="https://t.me/Robo_Sale" target="_blank" rel="noopener noreferrer">
                             📢 Telegram Kanalimiz
                         </a>
