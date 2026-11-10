@@ -20,8 +20,21 @@ const CATEGORY_SHORT = {
     power: 'Quvvat',
     cables: 'Kabellar',
     tools: 'Asboblar',
-    accessories: 'Aksesuarlar',
+    accessories: 'Aksesuar',
     robots: 'Robotlar'
+};
+
+const CATEGORY_EMOJI = {
+    arduino: '🧠',
+    sensors: '📡',
+    motors: '⚙️',
+    modules: '🧩',
+    kits: '🤖',
+    power: '🔋',
+    cables: '🔗',
+    tools: '🛠️',
+    accessories: '📦',
+    robots: '🦾'
 };
 
 const Home = () => {
@@ -139,13 +152,17 @@ const Home = () => {
                         </Link>
                     </div>
                     <div className="categories-grid">
-                        {categories.map((category) => (
+                        {categories.map((category, index) => (
                             <Link
                                 key={category.id}
                                 to={`/products?category=${category.id}`}
                                 className="category-card"
+                                style={{ '--float-delay': `${index * 0.35}s` }}
                             >
                                 <div className="category-icon-wrapper">
+                                    <span className="category-sticker" aria-hidden="true">
+                                        {CATEGORY_EMOJI[category.id] || '📦'}
+                                    </span>
                                     <span className="category-circle-text">
                                         {CATEGORY_SHORT[category.id] || category.name}
                                     </span>

@@ -16,19 +16,13 @@ const Hero = () => {
 
             <div className="container hero-container">
                 <div className="hero-content">
-                    <div className="hero-badge animate-fadeIn">
-                        <FiZap className="badge-icon" />
-                        <span>Kelajak texnologiyalari</span>
-                    </div>
-
                     <h1 className="hero-title animate-fadeInUp">
                         <span className="title-line">Arduino &amp; robototexnika</span>
                         <span className="title-line gradient-text">online do'koni</span>
                     </h1>
 
                     <p className="hero-description animate-fadeInUp delay-2">
-                        Arduino, sensorlar, motorlar va robot kitlar.
-                        Beruniy va O'zbekiston bo'ylab 1–2 kunda yetkazamiz.
+                        Sensorlar, motorlar va tayyor robot kitlar — 1–2 kunda yetkazamiz.
                     </p>
 
                     <div className="hero-buttons animate-fadeInUp delay-3">
@@ -43,18 +37,18 @@ const Hero = () => {
 
                     <div className="hero-stats animate-fadeInUp delay-4">
                         <div className="stat-item">
-                            <span className="stat-number">500+</span>
-                            <span className="stat-label">Mahsulotlar</span>
+                            <span className="stat-number">161+</span>
+                            <span className="stat-label">Mahsulot</span>
                         </div>
                         <div className="stat-divider"></div>
                         <div className="stat-item">
-                            <span className="stat-number">10K+</span>
-                            <span className="stat-label">Mijozlar</span>
+                            <span className="stat-number">1–2 kun</span>
+                            <span className="stat-label">Yetkazish</span>
                         </div>
                         <div className="stat-divider"></div>
                         <div className="stat-item">
-                            <span className="stat-number">99%</span>
-                            <span className="stat-label">Mamnunlik</span>
+                            <span className="stat-number">24/7</span>
+                            <span className="stat-label">Yordam</span>
                         </div>
                     </div>
                 </div>
