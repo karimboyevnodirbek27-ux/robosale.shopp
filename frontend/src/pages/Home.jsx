@@ -11,6 +11,19 @@ import './Home.css';
 
 const TELEGRAM_LINK = 'https://t.me/Karimboyev_Nodirbek';
 
+const CATEGORY_SHORT = {
+    arduino: 'Arduino',
+    sensors: 'Sensorlar',
+    motors: 'Motorlar',
+    modules: 'Modullar',
+    kits: 'Kitlar',
+    power: 'Quvvat',
+    cables: 'Kabellar',
+    tools: 'Asboblar',
+    accessories: 'Aksesuarlar',
+    robots: 'Robotlar'
+};
+
 const Home = () => {
     const [showAllProducts, setShowAllProducts] = useState(false);
     const [products, setProducts] = useState([]);
@@ -133,9 +146,10 @@ const Home = () => {
                                 className="category-card"
                             >
                                 <div className="category-icon-wrapper">
-                                    <span className="category-icon">{category.icon}</span>
+                                    <span className="category-circle-text">
+                                        {CATEGORY_SHORT[category.id] || category.name}
+                                    </span>
                                 </div>
-                                <h3>{category.name}</h3>
                             </Link>
                         ))}
                     </div>
