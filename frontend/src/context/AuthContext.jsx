@@ -60,6 +60,10 @@ export const AuthProvider = ({ children }) => {
             }
             setUser(data.user);
             setToken(data.token);
+            // LocalStorage'ga DARHOL yozamiz: bolalar effektlari token'ni
+            // effekt orqali yozilishidan oldin o'qib qolishi sababli
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
             return { success: true, user: data.user };
         } catch (error) {
             return { success: false, message: error.message };
@@ -82,6 +86,8 @@ export const AuthProvider = ({ children }) => {
             }
             setUser(data.user);
             setToken(data.token);
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
             return { success: true, user: data.user };
         } catch (error) {
             return { success: false, message: error.message };
