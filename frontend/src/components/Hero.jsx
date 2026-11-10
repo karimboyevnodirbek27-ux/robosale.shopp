@@ -22,14 +22,13 @@ const Hero = () => {
                     </div>
 
                     <h1 className="hero-title animate-fadeInUp">
-                        <span className="title-line">G'oyalaringizni</span>
-                        <span className="title-line gradient-text">Robotika</span>
-                        <span className="title-line">bilan quvvatlang</span>
+                        <span className="title-line">Arduino &amp; robototexnika</span>
+                        <span className="title-line gradient-text">online do'koni</span>
                     </h1>
 
                     <p className="hero-description animate-fadeInUp delay-2">
-                        Arduino, sensorlar, motorlar va aqlli texnologiyalar.
-                        O'zbekistondagi eng sifatli robotika mahsulotlari do'koni.
+                        Arduino, sensorlar, motorlar va robot kitlar.
+                        Beruniy va O'zbekiston bo'ylab 1–2 kunda yetkazamiz.
                     </p>
 
                     <div className="hero-buttons animate-fadeInUp delay-3">

@@ -366,6 +366,11 @@
     .user-chip {
         padding: 0.25rem;
     }
+
+    .theme-toggle,
+    .wishlist-btn {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
