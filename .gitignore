@@ -29,3 +29,8 @@ backend/uploads/*
 # Build outputs
 dist/
 build/
+
+# Deploy keys and test scripts (never commit)
+deploy-keys.txt
+**/test-*.js
+
