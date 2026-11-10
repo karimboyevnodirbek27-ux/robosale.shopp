@@ -46,7 +46,7 @@ const AdminLogin = () => {
         <div className="admin-login-page">
             <div className="admin-login-card">
                 <div className="login-header">
-                    <span className="login-icon">🤖</span>
+                    <img src="/logo.svg" alt="RoboSale" className="login-logo-img" />
                     <h1>RoboSale</h1>
                     <p>Admin Panel</p>
                 </div>
@@ -855,7 +855,7 @@ const Admin = () => {
         <div className="admin-layout">
             <aside className="admin-sidebar">
                 <div className="sidebar-header">
-                    <h2>🤖 RoboSale</h2>
+                    <img src="/logo.svg" alt="RoboSale" className="sidebar-logo-img" />
                     <span>Admin Panel</span>
                 </div>
 

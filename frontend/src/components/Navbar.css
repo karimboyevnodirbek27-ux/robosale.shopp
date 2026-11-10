@@ -42,11 +42,12 @@
 }
 
 .logo-img {
-    height: 40px;
-    width: 40px;
+    height: 42px;
+    width: 42px;
     object-fit: contain;
     transition: var(--transition);
     background: transparent;
+    filter: drop-shadow(0 4px 12px rgba(34, 211, 238, 0.3));
 }
 
 .navbar-logo:hover .logo-img {
