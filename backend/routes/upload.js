@@ -3,7 +3,9 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const mongoose = require('mongoose');
 const { protect, adminOnly } = require('../middleware/auth');
+const ImageAsset = require('../models/ImageAsset');
 
 const useCloudinary = Boolean(
     process.env.CLOUDINARY_CLOUD_NAME &&
@@ -32,35 +34,25 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-const uploadOptions = {
+// Faylni xotiraga olamiz: keyin Cloudinary'ga yoki MongoDB'ga yozamiz.
+// (Render'da lokal disk vaqtinchalik bo'lgani uchun diskka yozmaymiz.)
+const upload = multer({
     fileFilter,
-    limits: { fileSize: 5 * 1024 * 1024 } // 5MB
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+    storage: multer.memoryStorage()
+});
+
+// Lokal diskdagi eski rasmlarni o'chirish uchun (orqaga moslik)
+const legacyUploadDir = path.join(__dirname, '..', 'uploads');
+
+const extFromMime = (mimetype, originalName) => {
+    const ext = path.extname(originalName || '').toLowerCase();
+    if (['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext)) return ext;
+    if (mimetype === 'image/png') return '.png';
+    if (mimetype === 'image/gif') return '.gif';
+    if (mimetype === 'image/webp') return '.webp';
+    return '.jpg';
 };
-
-let upload;
-let uploadDir = null;
-
-if (useCloudinary) {
-    // Cloudinary bo'lsa, faylni xotiraga yuklab, u yerdan Cloudinary'ga jo'natamiz
-    upload = multer({ ...uploadOptions, storage: multer.memoryStorage() });
-} else {
-    // Lokal rejim: fayl backend/uploads papkasiga saqlanadi
-    uploadDir = path.join(__dirname, '..', 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    const storage = multer.diskStorage({
-        destination: (req, file, cb) => cb(null, uploadDir),
-        filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-            const ext = path.extname(file.originalname);
-            cb(null, `product-${uniqueSuffix}${ext}`);
-        }
-    });
-
-    upload = multer({ ...uploadOptions, storage });
-}
 
 // @route   POST /api/upload
 // @desc    Rasm yuklash (Admin)
@@ -95,14 +87,23 @@ router.post('/', protect, adminOnly, upload.single('image'), async (req, res) =>
             });
         }
 
+        // Cloudinary sozlanmagan: rasmni MongoDB'ga saqlaymiz (doimiy).
+        const image = await ImageAsset.create({
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+            filename: req.file.originalname,
+            size: req.file.size
+        });
+
         const baseUrl = process.env.BACKEND_URL || `${req.protocol}://${req.get('host')}`;
-        const imageUrl = `${baseUrl.replace(/\/$/, '')}/uploads/${req.file.filename}`;
+        const ext = extFromMime(req.file.mimetype, req.file.originalname);
+        const imageUrl = `${baseUrl.replace(/\/$/, '')}/api/images/${image._id}${ext}`;
 
         res.json({
             success: true,
             message: 'Rasm muvaffaqiyatli yuklandi',
             imageUrl,
-            filename: req.file.filename,
+            imageId: image._id,
             originalName: req.file.originalname,
             size: req.file.size
         });
@@ -115,22 +116,27 @@ router.post('/', protect, adminOnly, upload.single('image'), async (req, res) =>
     }
 });
 
-// @route   DELETE /api/upload/:filename
-// @desc    Lokal rasmni o'chirish (Admin)
-router.delete('/:filename', protect, adminOnly, async (req, res) => {
+// @route   DELETE /api/upload/:id
+// @desc    Yuklangan rasmni o'chirish (Admin)
+router.delete('/:id', protect, adminOnly, async (req, res) => {
     try {
-        if (useCloudinary) {
-            return res.status(400).json({
-                success: false,
-                message: 'Cloudinary rejimida rasmni publicId orqali o\'chirish kerak'
-            });
+        const rawId = String(req.params.id).split('.')[0];
+
+        // MongoDB'da saqlangan rasm
+        if (mongoose.Types.ObjectId.isValid(rawId)) {
+            const deleted = await ImageAsset.findByIdAndDelete(rawId);
+            if (deleted) {
+                return res.json({ success: true, message: 'Rasm o\'chirildi' });
+            }
         }
 
-        const filePath = path.join(uploadDir, req.params.filename);
-
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-            return res.json({ success: true, message: 'Rasm o\'chirildi' });
+        // Eski lokal fayl (faqat fayl nomi berilgan bo'lsa)
+        if (!req.params.id.includes('/')) {
+            const filePath = path.join(legacyUploadDir, req.params.id);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+                return res.json({ success: true, message: 'Rasm o\'chirildi' });
+            }
         }
 
         return res.status(404).json({ success: false, message: 'Rasm topilmadi' });
