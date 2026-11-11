@@ -320,6 +320,14 @@ const ProductForm = () => {
             return;
         }
 
+        const imageValue = formData.image.trim();
+        const isValidImage = imageValue.startsWith('/') || /^https?:\/\//i.test(imageValue);
+
+        if (!isValidImage) {
+            toast.error('Rasm manzili "/" bilan boshlanishi yoki https:// bilan boshlanishi kerak');
+            return;
+        }
+
         setSaving(true);
         try {
             const url = isEdit ? `/products/${id}` : '/products';
@@ -329,6 +337,7 @@ const ProductForm = () => {
                 method,
                 body: JSON.stringify({
                     ...formData,
+                    image: imageValue,
                     price: Number(formData.price),
                     stockCount: Number(formData.stockCount)
                 })
@@ -467,12 +476,18 @@ const ProductForm = () => {
                             <div className="form-group">
                                 <label>Rasm URL manzili *</label>
                                 <input
-                                    type="url"
+                                    type="text"
                                     name="image"
                                     value={formData.image}
                                     onChange={handleChange}
-                                    placeholder="https://example.com/image.jpg"
+                                    placeholder="/images/products/prod-1.jpg yoki https://..."
+                                    inputMode="url"
+                                    autoComplete="off"
+                                    spellCheck="false"
                                 />
+                                <small className="field-hint">
+                                    Saytdagi rasm uchun: <code>/images/products/prod-1.jpg</code>
+                                </small>
                             </div>
                         ) : (
                             <div className="form-group">
