@@ -1,10 +1,10 @@
-import { API_URL } from '../config';
+import { API_URL, SERVER_URL } from '../config';
 
 // Render bepul planda 15 daqiqa harakatsizlikdan keyin uxlaydi.
 // Sahifa ochilishi bilan serverni oldindan "uyg'otamiz" (natija muhim emas).
 export const warmupApi = () => {
     try {
-        fetch(`${API_URL}/health`, { cache: 'no-store' }).catch(() => { });
+        fetch(`${SERVER_URL}/health`, { cache: 'no-store' }).catch(() => { });
     } catch {
         // tarmoq yo'q bo'lsa jim o'tamiz
     }
