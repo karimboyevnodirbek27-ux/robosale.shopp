@@ -4,7 +4,7 @@ import { FiGrid, FiList, FiFilter, FiSearch, FiX } from 'react-icons/fi';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { categories } from '../data/products';
-import { API_URL } from '../config';
+import { apiFetch } from '../lib/api';
 import './Products.css';
 
 const Products = () => {
@@ -39,12 +39,12 @@ const Products = () => {
             setLoading(true);
             setError(null);
             try {
-                let url = `${API_URL}/products?`;
+                let url = '/products?';
                 if (filters.category !== 'all') url += `category=${filters.category}&`;
                 if (filters.search) url += `search=${filters.search}&`;
                 if (filters.sort !== 'default') url += `sort=${filters.sort}&`;
 
-                const response = await fetch(url);
+                const response = await apiFetch(url);
                 const data = await response.json();
 
                 if (data.success) {

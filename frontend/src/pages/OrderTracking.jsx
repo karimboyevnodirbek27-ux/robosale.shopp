@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiSearch, FiPackage, FiTruck, FiCheck, FiClock } from 'react-icons/fi';
 import { useToast } from '../context/ToastContext';
-import { API_URL } from '../config';
+import { apiFetch } from '../lib/api';
 import './OrderTracking.css';
 
 const OrderTracking = () => {
@@ -24,7 +24,7 @@ const OrderTracking = () => {
         setOrder(null);
 
         try {
-            const response = await fetch(`${API_URL}/orders/track/${orderNumber}`);
+            const response = await apiFetch(`/orders/track/${orderNumber}`);
             const data = await response.json();
 
             if (data.success) {

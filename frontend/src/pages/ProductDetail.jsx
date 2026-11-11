@@ -6,7 +6,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import { ProductDetailSkeleton } from '../components/Skeleton';
 import { formatPrice, getImageUrl } from '../data/products';
-import { API_URL } from '../config';
+import { apiFetch } from '../lib/api';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -26,7 +26,7 @@ const ProductDetail = () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch(`${API_URL}/products/${id}`);
+                const response = await apiFetch(`/products/${id}`);
                 const data = await response.json();
 
                 if (data.success) {

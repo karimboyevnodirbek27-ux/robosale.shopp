@@ -4,7 +4,7 @@ import { FiCreditCard, FiCheck, FiAlertCircle } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { formatPrice, getImageUrl } from '../data/products';
-import { API_URL } from '../config';
+import { apiFetch } from '../lib/api';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -79,10 +79,11 @@ const Checkout = () => {
                 paymentMethod
             };
 
-            const response = await fetch(`${API_URL}/orders`, {
+            const response = await apiFetch('/orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
+                body: JSON.stringify(orderData),
+                timeoutMs: 40000
             });
 
             const data = await response.json();

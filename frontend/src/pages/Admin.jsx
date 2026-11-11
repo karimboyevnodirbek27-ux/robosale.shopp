@@ -289,7 +289,8 @@ const ProductForm = () => {
 
             const res = await apiFetch('/upload', {
                 method: 'POST',
-                body: formDataUpload
+                body: formDataUpload,
+                timeoutMs: 120000
             });
 
             const data = await res.json();

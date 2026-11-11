@@ -6,7 +6,7 @@ import { ProductGridSkeleton } from '../components/Skeleton';
 import { categories, products as localProducts } from '../data/products';
 import { FiArrowRight, FiTruck, FiShield, FiHeadphones, FiPackage, FiZap } from 'react-icons/fi';
 import { FaTelegram } from 'react-icons/fa';
-import { API_URL } from '../config';
+import { apiFetch } from '../lib/api';
 import './Home.css';
 
 const TELEGRAM_LINK = 'https://t.me/Karimboyev_Nodirbek';
@@ -47,7 +47,7 @@ const Home = () => {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${API_URL}/products`);
+                const response = await apiFetch('/products');
                 const data = await response.json();
 
                 if (data.success) {
