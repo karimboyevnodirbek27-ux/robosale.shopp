@@ -169,6 +169,10 @@
     background: var(--bg-secondary);
 }
 
+.categories-section .container {
+    position: relative;
+}
+
 .categories-section .section-header {
     margin-bottom: 1.5rem;
     display: flex;
@@ -194,12 +198,28 @@
         padding: var(--space-6) 0;
     }
 
+    .categories-section .container::after {
+        content: '';
+        position: absolute;
+        top: 2.25rem;
+        right: 0;
+        bottom: 0.25rem;
+        width: 48px;
+        background: linear-gradient(to right, transparent, var(--bg-secondary) 85%);
+        pointer-events: none;
+        z-index: 2;
+    }
+
     .categories-section .section-header {
         margin-bottom: 0.75rem;
     }
 
     .categories-section .section-header .section-title h2 {
         font-size: 1.125rem;
+    }
+
+    .categories-grid {
+        padding-right: 2.5rem;
     }
 
     .category-icon-wrapper {

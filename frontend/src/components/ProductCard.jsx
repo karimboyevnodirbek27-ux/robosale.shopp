@@ -173,7 +173,7 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
                         ) : (
                             <>
                                 <FiShoppingCart />
-                                <span>Qo'shish</span>
+                                <span>Savatga</span>
                             </>
                         )}
                     </button>
