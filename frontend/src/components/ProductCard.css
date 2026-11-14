@@ -256,9 +256,9 @@
 
 .product-price {
     display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.125rem;
 }
 
 .current-price {
@@ -270,12 +270,13 @@
 }
 
 .old-price {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     color: var(--text-muted);
     text-decoration: line-through;
 }
 
 .save-amount {
+    margin-top: 0.125rem;
     padding: 0.125rem 0.5rem;
     font-size: 0.6875rem;
     font-weight: 700;

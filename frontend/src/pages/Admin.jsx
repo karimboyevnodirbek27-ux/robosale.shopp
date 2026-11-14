@@ -220,6 +220,7 @@ const ProductForm = () => {
         name: '',
         description: '',
         price: '',
+        oldPrice: '',
         category: 'arduino',
         stockCount: '10',
         image: '',
@@ -243,6 +244,7 @@ const ProductForm = () => {
                     name: p.name || '',
                     description: p.description || '',
                     price: String(p.price || ''),
+                    oldPrice: p.oldPrice != null ? String(p.oldPrice) : '',
                     category: p.category || 'arduino',
                     stockCount: String(p.stockCount || '10'),
                     image: p.image || '',
@@ -316,7 +318,7 @@ const ProductForm = () => {
         e.preventDefault();
 
         if (!formData.name || !formData.price || !formData.image) {
-            toast.error('Nomi, narxi va rasm kiritilishi shart!');
+            toast.error('Nomi, sotuv narxi va rasm kiritilishi shart!');
             return;
         }
 
@@ -325,6 +327,24 @@ const ProductForm = () => {
 
         if (!isValidImage) {
             toast.error('Rasm manzili "/" bilan boshlanishi yoki https:// bilan boshlanishi kerak');
+            return;
+        }
+
+        const priceValue = Number(formData.price);
+        const oldPriceValue = formData.oldPrice !== '' ? Number(formData.oldPrice) : null;
+
+        if (!Number.isFinite(priceValue) || priceValue < 0) {
+            toast.error('Sotuv narxi noto‘g‘ri');
+            return;
+        }
+
+        if (oldPriceValue !== null && (!Number.isFinite(oldPriceValue) || oldPriceValue <= 0)) {
+            toast.error('Asl narx noto‘g‘ri');
+            return;
+        }
+
+        if (oldPriceValue !== null && oldPriceValue <= priceValue) {
+            toast.error('Chegirma bo‘lishi uchun asl narx sotuv narxidan katta bo‘lishi kerak');
             return;
         }
 
@@ -338,7 +358,8 @@ const ProductForm = () => {
                 body: JSON.stringify({
                     ...formData,
                     image: imageValue,
-                    price: Number(formData.price),
+                    price: priceValue,
+                    oldPrice: oldPriceValue,
                     stockCount: Number(formData.stockCount)
                 })
             });
@@ -400,27 +421,43 @@ const ProductForm = () => {
 
                         <div className="form-row">
                             <div className="form-group">
-                                <label>Narxi (so'm) *</label>
+                                <label>Asl narxi (so'm)</label>
+                                <input
+                                    type="number"
+                                    name="oldPrice"
+                                    value={formData.oldPrice}
+                                    onChange={handleChange}
+                                    placeholder="200000"
+                                    min="0"
+                                />
+                                <small className="field-hint">Chegirma bo‘lsa — asl narx. Saytda ustidan chiziq tortiladi.</small>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Chegirma narxi (sotuv) *</label>
                                 <input
                                     type="number"
                                     name="price"
                                     value={formData.price}
                                     onChange={handleChange}
                                     placeholder="150000"
+                                    min="0"
                                     required
                                 />
+                                <small className="field-hint">Mijoz to‘laydigan narx. Saytda teparoq va kattaroq ko‘rinadi.</small>
                             </div>
+                        </div>
 
-                            <div className="form-group">
-                                <label>Ombordagi soni</label>
-                                <input
-                                    type="number"
-                                    name="stockCount"
-                                    value={formData.stockCount}
-                                    onChange={handleChange}
-                                    placeholder="10"
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label>Ombordagi soni</label>
+                            <input
+                                type="number"
+                                name="stockCount"
+                                value={formData.stockCount}
+                                onChange={handleChange}
+                                placeholder="10"
+                                min="0"
+                            />
                         </div>
 
                         <div className="form-group">
@@ -679,7 +716,12 @@ const ProductsManagement = () => {
                                     </td>
                                     <td>{product.name}</td>
                                     <td>{product.category}</td>
-                                    <td>{formatPrice(product.price)}</td>
+                                    <td className="price-cell">
+                                        <span className="price-current">{formatPrice(product.price)}</span>
+                                        {product.oldPrice > product.price && (
+                                            <span className="price-old">{formatPrice(product.oldPrice)}</span>
+                                        )}
+                                    </td>
                                     <td>{product.stockCount || 0}</td>
                                     <td>
                                         <div className="action-buttons">

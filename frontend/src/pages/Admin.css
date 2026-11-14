@@ -915,3 +915,20 @@
     color: var(--success) !important;
     font-size: 0.75rem !important;
 }
+/* Products table price with discount */
+.admin-table .price-cell {
+    white-space: nowrap;
+}
+
+.admin-table .price-cell .price-current {
+    display: block;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.admin-table .price-cell .price-old {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
