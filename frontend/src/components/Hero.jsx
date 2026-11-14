@@ -1,8 +1,54 @@
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiZap } from 'react-icons/fi';
+import { getImageUrl } from '../data/products';
 import './Hero.css';
 
-const Hero = () => {
+const DEFAULT_SHOWCASE = [
+    {
+        key: 'main',
+        id: 42,
+        image: '/images/products/prod-42.jpg',
+        tag: 'Arduino',
+        name: 'Uno R3',
+        alt: 'Arduino Uno R3'
+    },
+    {
+        key: 'mini-1',
+        id: 19,
+        image: '/images/products/prod-19.jpg',
+        name: 'HC-SR04',
+        alt: 'HC-SR04 ultratovush sensori'
+    },
+    {
+        key: 'mini-2',
+        id: 13,
+        image: '/images/products/prod-13.jpg',
+        name: 'L298N',
+        alt: 'L298N motor drayver'
+    }
+];
+
+const findProduct = (products, item) => {
+    if (!Array.isArray(products) || products.length === 0) return null;
+    return (
+        products.find((p) => p.id === item.id) ||
+        products.find((p) => (p.name || '').toLowerCase().includes(item.name.toLowerCase())) ||
+        null
+    );
+};
+
+const Hero = ({ products = [] }) => {
+    const showcase = DEFAULT_SHOWCASE.map((item) => {
+        const match = findProduct(products, item);
+        return {
+            ...item,
+            image: getImageUrl(match?.image || item.image),
+            link: match ? `/product/${match._id || match.id}` : '/products'
+        };
+    });
+
+    const [main, mini1, mini2] = showcase;
+
     return (
         <section className="hero">
             {/* Animated Background */}
@@ -57,41 +103,41 @@ const Hero = () => {
                     <div className="visual-container">
                         <div className="showcase-glow" aria-hidden="true"></div>
 
-                        <div className="showcase-card showcase-main animate-float">
+                        <Link
+                            to={main.link}
+                            className="showcase-card showcase-main animate-float"
+                            aria-label={main.alt}
+                        >
                             <div className="showcase-media">
-                                <img
-                                    src="/images/products/prod-42.jpg"
-                                    alt="Arduino Uno R3"
-                                    loading="eager"
-                                />
+                                <img src={main.image} alt={main.alt} loading="eager" />
                             </div>
                             <div className="showcase-meta">
-                                <span className="showcase-tag">Arduino</span>
-                                <span className="showcase-name">Uno R3</span>
+                                <span className="showcase-tag">{main.tag}</span>
+                                <span className="showcase-name">{main.name}</span>
                             </div>
-                        </div>
+                        </Link>
 
-                        <div className="showcase-card showcase-mini mini-1 animate-float delay-2">
+                        <Link
+                            to={mini1.link}
+                            className="showcase-card showcase-mini mini-1 animate-float delay-2"
+                            aria-label={mini1.alt}
+                        >
                             <div className="showcase-media">
-                                <img
-                                    src="/images/products/prod-19.jpg"
-                                    alt="HC-SR04 ultratovush sensori"
-                                    loading="lazy"
-                                />
+                                <img src={mini1.image} alt={mini1.alt} loading="lazy" />
                             </div>
-                            <span className="showcase-name">HC-SR04</span>
-                        </div>
+                            <span className="showcase-name">{mini1.name}</span>
+                        </Link>
 
-                        <div className="showcase-card showcase-mini mini-2 animate-float delay-3">
+                        <Link
+                            to={mini2.link}
+                            className="showcase-card showcase-mini mini-2 animate-float delay-3"
+                            aria-label={mini2.alt}
+                        >
                             <div className="showcase-media">
-                                <img
-                                    src="/images/products/prod-13.jpg"
-                                    alt="L298N motor drayver"
-                                    loading="lazy"
-                                />
+                                <img src={mini2.image} alt={mini2.alt} loading="lazy" />
                             </div>
-                            <span className="showcase-name">L298N</span>
-                        </div>
+                            <span className="showcase-name">{mini2.name}</span>
+                        </Link>
 
                         <div className="showcase-chip chip-1">
                             <FiZap />

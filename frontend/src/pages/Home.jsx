@@ -95,7 +95,7 @@ const Home = () => {
 
     return (
         <div className="home-page">
-            <Hero />
+            <Hero products={products} />
 
             {/* Features Section (mockup: 3 ta tile) */}
             <section className="features-section">
