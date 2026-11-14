@@ -18,6 +18,13 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
     const inCart = isInCart(productId);
     const inWishlist = isInWishlist(productId);
 
+    // Chegirma foizi: bazada `discount` bo'lsa o'shani, aks holda oldPrice'dan hisoblaymiz
+    const discountPercent = product.discount
+        || (product.oldPrice > product.price
+            ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+            : 0);
+    const saveAmount = product.oldPrice > product.price ? product.oldPrice - product.price : 0;
+
     // Generate product code for display
     const getProductCode = () => {
         if (typeof productId === 'string' && productId.length > 6) {
@@ -61,12 +68,12 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
     return (
         <Link to={`/product/${productId}`} className={`product-card ${viewMode === 'list' ? 'list-view' : ''}`}>
             {/* Badge */}
-            {product.discount && (
+            {discountPercent > 0 && (
                 <span className="product-badge sale">
-                    -{product.discount}%
+                    -{discountPercent}%
                 </span>
             )}
-            {product.featured && !product.discount && (
+            {product.featured && discountPercent === 0 && (
                 <span className="product-badge featured">
                     Mashhur
                 </span>
@@ -144,8 +151,11 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
                 <div className="product-price-row">
                     <div className="product-price">
                         <span className="current-price">{formatPrice(product.price)}</span>
-                        {product.oldPrice && (
+                        {product.oldPrice > product.price && (
                             <span className="old-price">{formatPrice(product.oldPrice)}</span>
+                        )}
+                        {saveAmount > 0 && (
+                            <span className="save-amount">Tejash {formatPrice(saveAmount)}</span>
                         )}
                     </div>
                     <button

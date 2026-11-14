@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiArrowRight, FiZap, FiCpu, FiSettings } from 'react-icons/fi';
+import { FiArrowRight, FiZap } from 'react-icons/fi';
 import './Hero.css';
 
 const Hero = () => {
@@ -55,98 +55,52 @@ const Hero = () => {
 
                 <div className="hero-visual">
                     <div className="visual-container">
-                        {/* Main Robot/Circuit Visual */}
-                        <div className="main-visual animate-float">
-                            <div className="circuit-board">
-                                <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    {/* Main chip */}
-                                    <rect x="140" y="140" width="120" height="120" rx="8" fill="url(#chipGradient)" stroke="url(#borderGradient)" strokeWidth="2" />
+                        <div className="showcase-glow" aria-hidden="true"></div>
 
-                                    {/* Chip pins */}
-                                    <g className="chip-pins">
-                                        {[0, 1, 2, 3, 4].map(i => (
-                                            <rect key={`top-${i}`} x={160 + i * 20} y="120" width="8" height="20" rx="2" fill="url(#pinGradient)" />
-                                        ))}
-                                        {[0, 1, 2, 3, 4].map(i => (
-                                            <rect key={`bottom-${i}`} x={160 + i * 20} y="260" width="8" height="20" rx="2" fill="url(#pinGradient)" />
-                                        ))}
-                                        {[0, 1, 2, 3, 4].map(i => (
-                                            <rect key={`left-${i}`} x="120" y={160 + i * 20} width="20" height="8" rx="2" fill="url(#pinGradient)" />
-                                        ))}
-                                        {[0, 1, 2, 3, 4].map(i => (
-                                            <rect key={`right-${i}`} x="260" y={160 + i * 20} width="20" height="8" rx="2" fill="url(#pinGradient)" />
-                                        ))}
-                                    </g>
-
-                                    {/* Circuit traces */}
-                                    <g className="circuit-traces" stroke="url(#traceGradient)" strokeWidth="2" fill="none">
-                                        <path d="M164 120 L164 80 L80 80" className="trace-animate" />
-                                        <path d="M204 120 L204 60 L320 60" className="trace-animate delay-1" />
-                                        <path d="M120 180 L60 180 L60 300" className="trace-animate delay-2" />
-                                        <path d="M280 200 L340 200 L340 100" className="trace-animate delay-3" />
-                                        <path d="M184 280 L184 340 L100 340" className="trace-animate delay-4" />
-                                        <path d="M224 280 L224 320 L320 320" className="trace-animate delay-5" />
-                                    </g>
-
-                                    {/* Connection nodes */}
-                                    <g className="nodes">
-                                        <circle cx="80" cy="80" r="6" fill="url(#nodeGradient)" className="pulse-node" />
-                                        <circle cx="320" cy="60" r="6" fill="url(#nodeGradient)" className="pulse-node delay-1" />
-                                        <circle cx="60" cy="300" r="6" fill="url(#nodeGradient)" className="pulse-node delay-2" />
-                                        <circle cx="340" cy="100" r="6" fill="url(#nodeGradient)" className="pulse-node delay-3" />
-                                        <circle cx="100" cy="340" r="6" fill="url(#nodeGradient)" className="pulse-node delay-4" />
-                                        <circle cx="320" cy="320" r="6" fill="url(#nodeGradient)" className="pulse-node delay-5" />
-                                    </g>
-
-                                    {/* Chip center glow */}
-                                    <circle cx="200" cy="200" r="30" fill="url(#centerGlow)" className="center-pulse" />
-
-                                    {/* Gradients */}
-                                    <defs>
-                                        <linearGradient id="chipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#111827" />
-                                            <stop offset="100%" stopColor="#1F2937" />
-                                        </linearGradient>
-                                        <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#0066FF" />
-                                            <stop offset="100%" stopColor="#00D4FF" />
-                                        </linearGradient>
-                                        <linearGradient id="pinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#00D4FF" />
-                                            <stop offset="100%" stopColor="#0066FF" />
-                                        </linearGradient>
-                                        <linearGradient id="traceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#0066FF" stopOpacity="0.6" />
-                                            <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.6" />
-                                        </linearGradient>
-                                        <radialGradient id="nodeGradient">
-                                            <stop offset="0%" stopColor="#00D4FF" />
-                                            <stop offset="100%" stopColor="#0066FF" />
-                                        </radialGradient>
-                                        <radialGradient id="centerGlow">
-                                            <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.8" />
-                                            <stop offset="50%" stopColor="#0066FF" stopOpacity="0.4" />
-                                            <stop offset="100%" stopColor="#0066FF" stopOpacity="0" />
-                                        </radialGradient>
-                                    </defs>
-                                </svg>
+                        <div className="showcase-card showcase-main animate-float">
+                            <div className="showcase-media">
+                                <img
+                                    src="/images/products/prod-42.jpg"
+                                    alt="Arduino Uno R3"
+                                    loading="eager"
+                                />
+                            </div>
+                            <div className="showcase-meta">
+                                <span className="showcase-tag">Arduino</span>
+                                <span className="showcase-name">Uno R3</span>
                             </div>
                         </div>
 
-                        {/* Floating Elements */}
-                        <div className="floating-elements">
-                            <div className="floating-card card-1 animate-float">
-                                <FiCpu className="card-icon" />
-                                <span>Arduino UNO</span>
+                        <div className="showcase-card showcase-mini mini-1 animate-float delay-2">
+                            <div className="showcase-media">
+                                <img
+                                    src="/images/products/prod-19.jpg"
+                                    alt="HC-SR04 ultratovush sensori"
+                                    loading="lazy"
+                                />
                             </div>
-                            <div className="floating-card card-2 animate-float delay-2">
-                                <FiSettings className="card-icon" />
-                                <span>Motorlar</span>
+                            <span className="showcase-name">HC-SR04</span>
+                        </div>
+
+                        <div className="showcase-card showcase-mini mini-2 animate-float delay-3">
+                            <div className="showcase-media">
+                                <img
+                                    src="/images/products/prod-13.jpg"
+                                    alt="L298N motor drayver"
+                                    loading="lazy"
+                                />
                             </div>
-                            <div className="floating-card card-3 animate-float delay-4">
-                                <FiZap className="card-icon" />
-                                <span>Sensorlar</span>
-                            </div>
+                            <span className="showcase-name">L298N</span>
+                        </div>
+
+                        <div className="showcase-chip chip-1">
+                            <FiZap />
+                            <span>161+ mahsulot</span>
+                        </div>
+
+                        <div className="showcase-chip chip-2">
+                            <span className="chip-dot"></span>
+                            <span>1–2 kunda yetkazish</span>
                         </div>
                     </div>
                 </div>
