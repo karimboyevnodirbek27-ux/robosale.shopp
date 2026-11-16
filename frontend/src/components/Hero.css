@@ -75,7 +75,7 @@
 .hero-container {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 4rem;
     align-items: center;
     z-index: 1;
@@ -87,6 +87,12 @@
 /* Hero Content */
 .hero-content {
     max-width: 560px;
+    min-width: 0;
+}
+
+.hero-carousel {
+    min-width: 0;
+    max-width: 100%;
 }
 
 .hero-badge {
@@ -365,7 +371,7 @@
 /* Responsive */
 @media (max-width: 992px) {
     .hero-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         text-align: center;
     }
 
