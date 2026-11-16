@@ -453,6 +453,10 @@ h6 {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-3);
   }
+
+  .products-grid {
+    align-items: start;
+  }
 }
 
 @media (max-width: 480px) {
@@ -464,6 +468,10 @@ h6 {
   .grid-2 {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-3);
+  }
+
+  .products-grid {
+    align-items: start;
   }
 }
 
