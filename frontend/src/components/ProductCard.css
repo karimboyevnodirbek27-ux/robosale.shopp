@@ -82,14 +82,15 @@
 
 .product-image img {
     position: relative;
-    max-width: 92%;
-    max-height: 92%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
     transition: transform 0.3s ease;
     z-index: 1;
-    /* NO FILTERS - Keep image bright and clear */
+    /* Asosiy: rasm kartani to'ldiradi, oq bo'shliq qolmaydi */
 }
 
 /* Dark mode - NO filters, NO blend modes */
