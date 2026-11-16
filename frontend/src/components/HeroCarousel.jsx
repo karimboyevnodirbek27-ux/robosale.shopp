@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiShoppingCart, FiCheck, FiChevronLeft, FiChevronRight, FiTruck, FiShield, FiHeadphones } from 'react-icons/fi';
+import { FiShoppingCart, FiCheck, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { formatPrice, getImageUrl } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
@@ -89,7 +89,7 @@ const HeroCarousel = ({ products = [] }) => {
             aria-roledescription="karusel"
         >
             <div className="carousel-header">
-                <span className="carousel-title">🔥 Bugungi skidkalar</span>
+                <span className="carousel-title">ðŸ”¥ Bugungi skidkalar</span>
                 <div className="carousel-dots" role="tablist">
                     {slides.map((slide, i) => (
                         <button
@@ -170,39 +170,9 @@ const HeroCarousel = ({ products = [] }) => {
                     );
                 })}
             </div>
-
-            {/* Mini feature tiles — karusel ostida */}
-            <div className="hero-features-mini">
-                <div className="hf-tile">
-                    <div className="hf-icon"><FiTruck /></div>
-                    <div className="hf-text">
-                        <h4>Tez yetkazib berish</h4>
-                        <p>Beruniy bo'ylab 1-2 kunda</p>
-                    </div>
-                </div>
-                <div className="hf-tile">
-                    <div className="hf-icon"><FiShield /></div>
-                    <div className="hf-text">
-                        <h4>Sifat kafolati</h4>
-                        <p>Original mahsulotlar</p>
-                    </div>
-                </div>
-                <a
-                    className="hf-tile hf-link"
-                    href="https://t.me/Karimboyev_Nodirbek"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Telegram orqali yordam"
-                >
-                    <div className="hf-icon"><FiHeadphones /></div>
-                    <div className="hf-text">
-                        <h4>24/7 Yordam</h4>
-                        <p>Telegram orqali yordam</p>
-                    </div>
-                </a>
-            </div>
         </div>
     );
 };
 
 export default HeroCarousel;
+

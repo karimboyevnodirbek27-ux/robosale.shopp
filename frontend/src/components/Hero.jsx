@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiArrowRight } from 'react-icons/fi';
+import { FiArrowRight, FiTruck, FiShield, FiHeadphones } from 'react-icons/fi';
 import HeroCarousel from './HeroCarousel';
 import './Hero.css';
 
@@ -27,6 +27,37 @@ const Hero = ({ products = [] }) => {
                             <span>Xarid qilish</span>
                             <FiArrowRight />
                         </Link>
+                    </div>
+
+                    {/* Mini feature tiles — yozuv va tugma tagida */}
+                    <div className="hero-features animate-fadeInUp delay-3">
+                        <div className="hf-tile">
+                            <div className="hf-icon"><FiTruck /></div>
+                            <div className="hf-text">
+                                <h4>Tez yetkazib berish</h4>
+                                <p>Beruniy bo'ylab 1-2 kunda</p>
+                            </div>
+                        </div>
+                        <div className="hf-tile">
+                            <div className="hf-icon"><FiShield /></div>
+                            <div className="hf-text">
+                                <h4>Sifat kafolati</h4>
+                                <p>Original mahsulotlar</p>
+                            </div>
+                        </div>
+                        <a
+                            className="hf-tile hf-link"
+                            href="https://t.me/Karimboyev_Nodirbek"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Telegram orqali yordam"
+                        >
+                            <div className="hf-icon"><FiHeadphones /></div>
+                            <div className="hf-text">
+                                <h4>24/7 Yordam</h4>
+                                <p>Telegram orqali</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
 
