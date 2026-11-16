@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiShoppingCart, FiCheck, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { formatPrice, getImageUrl } from '../data/products';
@@ -89,7 +89,7 @@ const HeroCarousel = ({ products = [] }) => {
             aria-roledescription="karusel"
         >
             <div className="carousel-header">
-                <span className="carousel-title">ðŸ”¥ Bugungi skidkalar</span>
+                <span className="carousel-title">{'\u{1F525}'} Bugungi skidkalar</span>
                 <div className="carousel-dots" role="tablist">
                     {slides.map((slide, i) => (
                         <button

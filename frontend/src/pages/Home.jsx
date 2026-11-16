@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
@@ -25,16 +25,16 @@ const CATEGORY_SHORT = {
 };
 
 const CATEGORY_EMOJI = {
-    arduino: 'ðŸ§ ',
-    sensors: 'ðŸ“¡',
-    motors: 'âš™ï¸',
-    modules: 'ðŸ§©',
-    kits: 'ðŸ¤–',
-    power: 'ðŸ”‹',
-    cables: 'ðŸ”—',
-    tools: 'ðŸ› ï¸',
-    accessories: 'ðŸ“¦',
-    robots: 'ðŸ¦¾'
+    arduino: '\u{1F9E0}',   // brain
+    sensors: '\u{1F4E1}',   // satellite antenna
+    motors: '\u2699\uFE0F', // gear
+    modules: '\u{1F9E9}',   // puzzle piece
+    kits: '\u{1F916}',      // robot face
+    power: '\u{1F50B}',     // battery
+    cables: '\u{1F517}',    // link
+    tools: '\u{1F6E0}\uFE0F', // hammer and wrench
+    accessories: '\u{1F4E6}', // package
+    robots: '\u{1F9BE}'     // mechanical arm
 };
 
 const Home = () => {
@@ -98,7 +98,7 @@ const Home = () => {
                             >
                                 <div className="category-icon-wrapper">
                                     <span className="category-sticker" aria-hidden="true">
-                                        {CATEGORY_EMOJI[category.id] || 'ðŸ“¦'}
+                                        {CATEGORY_EMOJI[category.id] || '\u{1F4E6}'}
                                     </span>
                                     <span className="category-circle-text">
                                         {CATEGORY_SHORT[category.id] || category.name}

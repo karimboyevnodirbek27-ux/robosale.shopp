@@ -77,13 +77,13 @@ const Footer = () => {
                             <li>
                                 <FaTelegram className="contact-icon" />
                                 <a href="https://t.me/Robo_Sale" target="_blank" rel="noopener noreferrer">
-                                    📢 @Robo_Sale (Kanal)
+                                    @Robo_Sale (Kanal)
                                 </a>
                             </li>
                             <li>
                                 <FaTelegram className="contact-icon" />
                                 <a href="https://t.me/RoboSale_group" target="_blank" rel="noopener noreferrer">
-                                    💬 @RoboSale_group (Guruh)
+                                    @RoboSale_group (Guruh)
                                 </a>
                             </li>
                         </ul>
@@ -95,13 +95,13 @@ const Footer = () => {
                     <p>&copy; {currentYear} RoboSale. Barcha huquqlar himoyalangan.</p>
                     <div className="footer-bottom-links">
                         <a href="/CREDITS.md" target="_blank" rel="noopener">
-                            📷 Rasmlar manbasi
+                            Rasmlar manbasi
                         </a>
                         <a href="https://t.me/Robo_Sale" target="_blank" rel="noopener noreferrer">
-                            📢 Telegram Kanalimiz
+                            Telegram Kanalimiz
                         </a>
                         <a href="https://t.me/RoboSale_group" target="_blank" rel="noopener noreferrer">
-                            💬 Telegram Guruhimiz
+                            Telegram Guruhimiz
                         </a>
                     </div>
                 </div>
