@@ -20,21 +20,21 @@ const CATEGORY_SHORT = {
     power: 'Quvvat',
     cables: 'Kabellar',
     tools: 'Asboblar',
-    accessories: 'Aksesuar',
+    accessories: 'Aksessuar',
     robots: 'Robotlar'
 };
 
-const CATEGORY_EMOJI = {
-    arduino: '\u{1F9E0}',   // brain
-    sensors: '\u{1F4E1}',   // satellite antenna
-    motors: '\u2699\uFE0F', // gear
-    modules: '\u{1F9E9}',   // puzzle piece
-    kits: '\u{1F916}',      // robot face
-    power: '\u{1F50B}',     // battery
-    cables: '\u{1F517}',    // link
-    tools: '\u{1F6E0}\uFE0F', // hammer and wrench
-    accessories: '\u{1F4E6}', // package
-    robots: '\u{1F9BE}'     // mechanical arm
+const CATEGORY_IMG = {
+    arduino: '/images/products/prod-42.jpg',
+    sensors: '/images/products/prod-19.jpg',
+    motors: '/images/products/prod-9.jpg',
+    modules: '/images/products/prod-20.jpg',
+    kits: '/images/products/prod-161.jpg',
+    power: '/images/products/prod-116.jpg',
+    cables: '/images/products/prod-57.jpg',
+    tools: '/images/products/prod-81.jpg',
+    accessories: '/images/products/prod-16.jpg',
+    robots: '/images/products/prod-161.jpg'
 };
 
 const Home = () => {
@@ -89,21 +89,22 @@ const Home = () => {
                         </Link>
                     </div>
                     <div className="categories-grid">
-                        {categories.map((category, index) => (
+                        {categories.map((category) => (
                             <Link
                                 key={category.id}
                                 to={`/products?category=${category.id}`}
                                 className="category-card"
-                                style={{ '--float-delay': `${index * 0.35}s` }}
                             >
-                                <div className="category-icon-wrapper">
-                                    <span className="category-sticker" aria-hidden="true">
-                                        {CATEGORY_EMOJI[category.id] || '\u{1F4E6}'}
-                                    </span>
-                                    <span className="category-circle-text">
-                                        {CATEGORY_SHORT[category.id] || category.name}
-                                    </span>
+                                <div className="category-ring">
+                                    <img
+                                        src={CATEGORY_IMG[category.id] || '/images/products/prod-1.jpg'}
+                                        alt={CATEGORY_SHORT[category.id] || category.name}
+                                        loading="lazy"
+                                    />
                                 </div>
+                                <span className="category-name">
+                                    {CATEGORY_SHORT[category.id] || category.name}
+                                </span>
                             </Link>
                         ))}
                     </div>
