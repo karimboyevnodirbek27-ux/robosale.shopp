@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiShoppingCart, FiCheck } from 'react-icons/fi';
+import { FiShoppingCart, FiCheck, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { formatPrice, getImageUrl } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
@@ -105,6 +105,13 @@ const HeroCarousel = ({ products = [] }) => {
             </div>
 
             <div className="carousel-viewport">
+                <button className="carousel-arrow prev" onClick={prev} aria-label="Oldingi slayd">
+                    <FiChevronLeft />
+                </button>
+                <button className="carousel-arrow next" onClick={next} aria-label="Keyingi slayd">
+                    <FiChevronRight />
+                </button>
+
                 {slides.map((slide, i) => {
                     const pid = slide._id || slide.id;
                     const discount =

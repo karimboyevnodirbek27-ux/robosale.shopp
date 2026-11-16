@@ -57,9 +57,53 @@
 }
 
 .carousel-viewport {
+    position: relative;
     display: grid;
     border-radius: 18px;
     overflow: hidden;
+}
+
+/* O'ngga/chapga o'tkazadigan strelkalar */
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-full);
+    background: rgba(11, 16, 32, 0.62);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.carousel-arrow:hover {
+    background: rgba(11, 16, 32, 0.85);
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 6px 18px rgba(0, 102, 255, 0.35);
+}
+
+.carousel-arrow:active {
+    transform: translateY(-50%) scale(0.96);
+}
+
+.carousel-arrow.prev {
+    left: 0.625rem;
+}
+
+.carousel-arrow.next {
+    right: 0.625rem;
+}
+
+.carousel-arrow svg {
+    font-size: 1.375rem;
 }
 
 .carousel-slide {
@@ -231,6 +275,23 @@
 
     .carousel-viewport {
         border-radius: 14px;
+    }
+
+    .carousel-arrow {
+        width: 32px;
+        height: 32px;
+    }
+
+    .carousel-arrow svg {
+        font-size: 1.125rem;
+    }
+
+    .carousel-arrow.prev {
+        left: 0.375rem;
+    }
+
+    .carousel-arrow.next {
+        right: 0.375rem;
     }
 
     .slide-media {
