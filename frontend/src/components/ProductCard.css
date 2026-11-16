@@ -330,7 +330,7 @@
     }
 
     .product-image {
-        aspect-ratio: 4 / 3;
+        aspect-ratio: 1 / 1;
         height: auto;
         margin: 0.5rem 0.5rem 0;
         padding: 0;
@@ -368,8 +368,8 @@
     }
 
     .product-info {
-        padding: 0.75rem 0.75rem 0.875rem;
-        gap: 0.4rem;
+        padding: 0.625rem 0.625rem 0.75rem;
+        gap: 0.35rem;
     }
 
     .product-category {
@@ -397,8 +397,8 @@
     }
 
     .product-price-row {
-        gap: 0.5rem;
-        padding-top: 0.625rem;
+        gap: 0.4rem;
+        padding-top: 0.5rem;
     }
 
     .product-price {
@@ -406,7 +406,7 @@
     }
 
     .current-price {
-        font-size: 1.05rem;
+        font-size: 0.875rem;
         letter-spacing: -0.02em;
         white-space: nowrap;
     }
@@ -438,7 +438,7 @@
     }
 
     .current-price {
-        font-size: 0.9375rem;
+        font-size: 0.8rem;
     }
 
     .product-name {

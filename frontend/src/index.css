@@ -451,6 +451,7 @@ h6 {
   .grid-3,
   .grid-2 {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
   }
 }
 
