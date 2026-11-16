@@ -408,7 +408,7 @@
     }
 
     .current-price {
-        font-size: 0.8rem;
+        font-size: 0.95rem;
         letter-spacing: -0.02em;
         white-space: nowrap;
     }
@@ -440,7 +440,7 @@
     }
 
     .current-price {
-        font-size: 0.72rem;
+        font-size: 0.85rem;
     }
 
     .product-name {
