@@ -91,12 +91,13 @@ const Home = () => {
                     <div className="categories-grid">
                         {categories
                             .filter((category) => CATEGORY_IMG[category.id])
-                            .map((category) => (
+                            .map((category, index) => (
                                 <Link
                                     key={category.id}
                                     to={`/products?category=${category.id}`}
                                     className="category-card"
                                     aria-label={CATEGORY_SHORT[category.id] || category.name}
+                                    style={{ '--glow-delay': `${index * 0.4}s` }}
                                 >
                                     <div className="category-ring">
                                         <img
