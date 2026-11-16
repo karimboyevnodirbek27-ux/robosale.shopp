@@ -6,7 +6,7 @@ import './Hero.css';
 const DEFAULT_SHOWCASE = [
     {
         key: 'main',
-        id: 42,
+        match: /Arduino Uno$/i,
         image: '/images/products/prod-42.jpg',
         tag: 'Arduino',
         name: 'Uno R3',
@@ -14,32 +14,36 @@ const DEFAULT_SHOWCASE = [
     },
     {
         key: 'mini-1',
-        id: 19,
+        match: /HC-SR04/i,
         image: '/images/products/prod-19.jpg',
         name: 'HC-SR04',
         alt: 'HC-SR04 ultratovush sensori'
     },
     {
         key: 'mini-2',
-        id: 13,
+        match: /L298N/i,
         image: '/images/products/prod-13.jpg',
         name: 'L298N',
         alt: 'L298N motor drayver'
     }
 ];
 
-const findProduct = (products, item) => {
-    if (!Array.isArray(products) || products.length === 0) return null;
+// Bir xil mahsulot takrorlangan bo'lsa (admin yangi qo'shgan),
+// yuklangan (MongoDB/API) rasmli versiyasini afzal ko'ramiz.
+const pickShowcase = (products, item) => {
+    const list = Array.isArray(products)
+        ? products.filter((p) => item.match.test(p?.name || ''))
+        : [];
+    if (list.length === 0) return null;
     return (
-        products.find((p) => p.id === item.id) ||
-        products.find((p) => (p.name || '').toLowerCase().includes(item.name.toLowerCase())) ||
-        null
+        list.find((p) => /^(https?:|\/api\/images\/)/i.test(p?.image || '')) ||
+        list[0]
     );
 };
 
 const Hero = ({ products = [] }) => {
     const showcase = DEFAULT_SHOWCASE.map((item) => {
-        const match = findProduct(products, item);
+        const match = pickShowcase(products, item);
         return {
             ...item,
             image: getImageUrl(match?.image || item.image),
