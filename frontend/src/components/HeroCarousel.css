@@ -2,7 +2,7 @@
 .hero-carousel {
     position: relative;
     width: 100%;
-    max-width: 560px;
+    max-width: 680px;
     padding: 1.125rem 1.125rem 1.25rem;
     background: linear-gradient(160deg, #101833 0%, #0b1020 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
