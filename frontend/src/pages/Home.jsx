@@ -25,16 +25,16 @@ const CATEGORY_SHORT = {
 };
 
 const CATEGORY_IMG = {
-    arduino: '/images/products/prod-42.jpg',
-    sensors: '/images/products/prod-19.jpg',
-    motors: '/images/products/prod-9.jpg',
-    modules: '/images/products/prod-20.jpg',
-    kits: '/images/products/prod-161.jpg',
-    power: '/images/products/prod-116.jpg',
-    cables: '/images/products/prod-57.jpg',
-    tools: '/images/products/prod-81.jpg',
-    accessories: '/images/products/prod-16.jpg',
-    robots: '/images/products/prod-161.jpg'
+    arduino: '/images/categories/arduino.jpg',
+    sensors: '/images/categories/sensors.jpg',
+    motors: '/images/categories/motors.jpg',
+    modules: '', // TODO: modullar.png tayyor bo'lganda qo'shiladi
+    kits: '/images/categories/kits.jpg',
+    power: '/images/categories/power.jpg',
+    cables: '/images/categories/cables.jpg',
+    tools: '/images/categories/tools.jpg',
+    accessories: '/images/categories/accessories.jpg',
+    robots: '/images/categories/kits.jpg'
 };
 
 const Home = () => {
@@ -89,24 +89,24 @@ const Home = () => {
                         </Link>
                     </div>
                     <div className="categories-grid">
-                        {categories.map((category) => (
-                            <Link
-                                key={category.id}
-                                to={`/products?category=${category.id}`}
-                                className="category-card"
-                            >
-                                <div className="category-ring">
-                                    <img
-                                        src={CATEGORY_IMG[category.id] || '/images/products/prod-1.jpg'}
-                                        alt={CATEGORY_SHORT[category.id] || category.name}
-                                        loading="lazy"
-                                    />
-                                </div>
-                                <span className="category-name">
-                                    {CATEGORY_SHORT[category.id] || category.name}
-                                </span>
-                            </Link>
-                        ))}
+                        {categories
+                            .filter((category) => CATEGORY_IMG[category.id])
+                            .map((category) => (
+                                <Link
+                                    key={category.id}
+                                    to={`/products?category=${category.id}`}
+                                    className="category-card"
+                                    aria-label={CATEGORY_SHORT[category.id] || category.name}
+                                >
+                                    <div className="category-ring">
+                                        <img
+                                            src={CATEGORY_IMG[category.id]}
+                                            alt={CATEGORY_SHORT[category.id] || category.name}
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                </Link>
+                            ))}
                     </div>
                 </div>
             </section>
