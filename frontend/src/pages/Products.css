@@ -475,7 +475,8 @@
     .products-grid.grid-4,
     .products-grid.grid-3,
     .products-grid.grid-2 {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
     }
 
     .products-grid.list-view .product-card {
