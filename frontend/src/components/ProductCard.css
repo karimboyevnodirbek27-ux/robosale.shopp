@@ -408,8 +408,8 @@
     }
 
     .current-price {
-        font-size: 0.95rem;
-        letter-spacing: -0.02em;
+        font-size: clamp(0.85rem, 5vw, 1.2rem);
+        letter-spacing: -0.03em;
         white-space: nowrap;
     }
 
@@ -437,10 +437,6 @@
 @media (max-width: 380px) {
     .product-info {
         padding: 0.625rem 0.625rem 0.75rem;
-    }
-
-    .current-price {
-        font-size: 0.85rem;
     }
 
     .product-name {
