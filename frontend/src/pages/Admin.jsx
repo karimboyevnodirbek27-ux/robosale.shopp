@@ -623,7 +623,7 @@ const ProductsManagement = () => {
 
     const fetchProducts = async () => {
         try {
-            const res = await apiFetch('/products?limit=100');
+            const res = await apiFetch('/products?limit=200');
             const data = await res.json();
             if (data.success) {
                 setProducts(data.products);

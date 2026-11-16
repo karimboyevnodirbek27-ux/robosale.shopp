@@ -39,7 +39,7 @@ const Products = () => {
             setLoading(true);
             setError(null);
             try {
-                let url = '/products?';
+                let url = '/products?limit=200&';
                 if (filters.category !== 'all') url += `category=${filters.category}&`;
                 if (filters.search) url += `search=${filters.search}&`;
                 if (filters.sort !== 'default') url += `sort=${filters.sort}&`;

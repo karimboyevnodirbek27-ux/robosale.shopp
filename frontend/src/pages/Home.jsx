@@ -47,7 +47,7 @@ const Home = () => {
         const fetchProducts = async () => {
             setLoading(true);
             try {
-                const response = await apiFetch('/products');
+                const response = await apiFetch('/products?limit=200');
                 const data = await response.json();
 
                 if (data.success) {
