@@ -468,7 +468,6 @@
     .products-grid.grid-3 {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
-        align-items: start;
     }
 }
 
@@ -479,7 +478,6 @@
     .products-grid.grid-2 {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
-        align-items: start;
     }
 
     .products-grid.list-view .product-card {
