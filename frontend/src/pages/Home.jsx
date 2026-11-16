@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/Skeleton';
 import { categories, products as localProducts } from '../data/products';
-import { FiArrowRight, FiTruck, FiShield, FiHeadphones, FiPackage, FiZap } from 'react-icons/fi';
+import { FiArrowRight, FiZap } from 'react-icons/fi';
 import { FaTelegram } from 'react-icons/fa';
 import { apiFetch } from '../lib/api';
 import './Home.css';
@@ -25,16 +25,16 @@ const CATEGORY_SHORT = {
 };
 
 const CATEGORY_EMOJI = {
-    arduino: '🧠',
-    sensors: '📡',
-    motors: '⚙️',
-    modules: '🧩',
-    kits: '🤖',
-    power: '🔋',
-    cables: '🔗',
-    tools: '🛠️',
-    accessories: '📦',
-    robots: '🦾'
+    arduino: 'ðŸ§ ',
+    sensors: 'ðŸ“¡',
+    motors: 'âš™ï¸',
+    modules: 'ðŸ§©',
+    kits: 'ðŸ¤–',
+    power: 'ðŸ”‹',
+    cables: 'ðŸ”—',
+    tools: 'ðŸ› ï¸',
+    accessories: 'ðŸ“¦',
+    robots: 'ðŸ¦¾'
 };
 
 const Home = () => {
@@ -72,72 +72,9 @@ const Home = () => {
     const allProducts = [...products].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     const displayProducts = showAllProducts ? allProducts : allProducts.slice(0, 12);
 
-    const features = [
-        {
-            icon: <FiTruck />,
-            title: 'Tez yetkazib berish',
-            description: 'Beruniy bo\'ylab 1-2 kunda',
-            link: null
-        },
-        {
-            icon: <FiShield />,
-            title: 'Sifat kafolati',
-            description: 'Original mahsulotlar',
-            link: null
-        },
-        {
-            icon: <FiHeadphones />,
-            title: '24/7 Yordam',
-            description: 'Telegram orqali yordam',
-            link: TELEGRAM_LINK
-        }
-    ];
-
     return (
         <div className="home-page">
             <Hero products={products} />
-
-            {/* Features Section (mockup: 3 ta tile) */}
-            <section className="features-section">
-                <div className="container">
-                    <div className="features-grid">
-                        {features.map((feature, index) => (
-                            feature.link ? (
-                                <a
-                                    key={index}
-                                    href={feature.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="feature-card feature-link"
-                                    style={{ '--delay': `${index * 0.1}s` }}
-                                >
-                                    <div className="feature-icon">
-                                        {feature.icon}
-                                    </div>
-                                    <div className="feature-content">
-                                        <h3>{feature.title}</h3>
-                                        <p>{feature.description}</p>
-                                    </div>
-                                </a>
-                            ) : (
-                                <div
-                                    key={index}
-                                    className="feature-card"
-                                    style={{ '--delay': `${index * 0.1}s` }}
-                                >
-                                    <div className="feature-icon">
-                                        {feature.icon}
-                                    </div>
-                                    <div className="feature-content">
-                                        <h3>{feature.title}</h3>
-                                        <p>{feature.description}</p>
-                                    </div>
-                                </div>
-                            )
-                        ))}
-                    </div>
-                </div>
-            </section>
 
             {/* Categories Section */}
             <section className="categories-section">
@@ -161,7 +98,7 @@ const Home = () => {
                             >
                                 <div className="category-icon-wrapper">
                                     <span className="category-sticker" aria-hidden="true">
-                                        {CATEGORY_EMOJI[category.id] || '📦'}
+                                        {CATEGORY_EMOJI[category.id] || 'ðŸ“¦'}
                                     </span>
                                     <span className="category-circle-text">
                                         {CATEGORY_SHORT[category.id] || category.name}
@@ -247,3 +184,4 @@ const Home = () => {
 };
 
 export default Home;
+
