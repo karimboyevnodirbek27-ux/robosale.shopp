@@ -176,17 +176,6 @@ const Home = () => {
             {/* Products Section - More Products */}
             <section className="featured-section">
                 <div className="container">
-                    <div className="section-header">
-                        <div className="section-title">
-                            <h2>Mashhur mahsulotlar 🔥</h2>
-                            <p>Eng ko'p sotilayotgan Arduino, sensorlar, motorlar</p>
-                        </div>
-                        <Link to="/products" className="view-all-btn">
-                            <span>Barchasini ko'rish</span>
-                            <FiArrowRight />
-                        </Link>
-                    </div>
-
                     {loading ? (
                         <ProductGridSkeleton count={8} />
                     ) : (
