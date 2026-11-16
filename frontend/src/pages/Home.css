@@ -615,6 +615,11 @@
     .cta-section {
         display: none;
     }
+
+    /* Mobil: 3 ta feature tile (yetkazib berish/kafolat/yordam) */
+    .features-section {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
