@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { FiTrash2, FiMinus, FiPlus, FiArrowLeft, FiShoppingBag } from 'react-icons/fi';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiTrash2, FiMinus, FiPlus, FiArrowLeft, FiShoppingBag, FiArrowRight } from 'react-icons/fi';
 import { FaTelegram } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { formatPrice, getImageUrl } from '../data/products';
@@ -9,6 +9,7 @@ import './Cart.css';
 const TELEGRAM_USERNAME = 'Karimboyev_Nodirbek';
 
 const Cart = () => {
+    const navigate = useNavigate();
     const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
 
     // Generate product ID for display
@@ -132,13 +133,19 @@ const Cart = () => {
                             <span>{formatPrice(getTotalPrice())}</span>
                         </div>
 
-                        <button onClick={handleTelegramOrder} className="btn btn-primary checkout-btn telegram-btn">
+                        <button onClick={() => navigate('/checkout')} className="btn btn-primary checkout-btn">
+                            <FiShoppingBag />
+                            Buyurtmani rasmiylashtirish
+                            <FiArrowRight />
+                        </button>
+
+                        <button onClick={handleTelegramOrder} className="checkout-btn telegram-btn secondary-btn">
                             <FaTelegram />
-                            Telegram orqali buyurtma berish
+                            Telegram orqali tez buyurtma
                         </button>
                         <div className="telegram-note">
                             <span>💬</span>
-                            <span>Sotuvchi admin bilan gaplashib buyurtma rasmiylashtirasiz</span>
+                            <span>Yoki @{TELEGRAM_USERNAME} ga to‘g‘ridan-to‘g‘ri yozing</span>
                         </div>
 
                         <Link to="/products" className="continue-shopping">

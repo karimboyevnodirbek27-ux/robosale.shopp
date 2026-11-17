@@ -310,6 +310,24 @@
     box-shadow: 0 14px 32px rgba(0, 136, 204, 0.45);
 }
 
+.secondary-btn {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    background: transparent;
+    color: #7dd3fc;
+    border: 1px solid rgba(0, 136, 204, 0.45);
+    box-shadow: none;
+}
+
+.secondary-btn:hover {
+    background: rgba(0, 136, 204, 0.12);
+    border-color: rgba(0, 136, 204, 0.8);
+    color: #e0f2fe;
+    box-shadow: none;
+    transform: none;
+}
+
 .telegram-note {
     display: flex;
     align-items: center;
