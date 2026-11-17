@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiTrash2, FiMinus, FiPlus, FiArrowLeft, FiShoppingBag, FiCreditCard } from 'react-icons/fi';
+import { FiTrash2, FiMinus, FiPlus, FiArrowLeft, FiShoppingBag } from 'react-icons/fi';
 import { FaTelegram } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { formatPrice, getImageUrl } from '../data/products';
@@ -132,8 +132,6 @@ const Cart = () => {
                             <span>{formatPrice(getTotalPrice())}</span>
                         </div>
 
-                        <span className="payment-label">Buyurtma usulini tanlang</span>
-
                         <button onClick={handleTelegramOrder} className="btn btn-primary checkout-btn telegram-btn">
                             <FaTelegram />
                             Telegram orqali buyurtma berish
@@ -141,16 +139,6 @@ const Cart = () => {
                         <div className="telegram-note">
                             <span>💬</span>
                             <span>Sotuvchi admin bilan gaplashib buyurtma rasmiylashtirasiz</span>
-                        </div>
-
-                        <button type="button" className="checkout-btn payme-btn" disabled title="Click/Payme integratsiyasi tez kunda qo'shiladi">
-                            <FiCreditCard />
-                            Click / Payme bilan to'lash
-                            <span className="soon-badge">Tez kunda</span>
-                        </button>
-                        <div className="payme-note">
-                            <span>💳</span>
-                            <span>Onlayn to'lov (Click, Payme) integratsiyasi yaqinda qo'shiladi</span>
                         </div>
 
                         <Link to="/products" className="continue-shopping">
