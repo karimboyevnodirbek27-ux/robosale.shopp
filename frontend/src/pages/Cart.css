@@ -60,7 +60,7 @@
 
 .cart-item {
     display: grid;
-    grid-template-columns: 112px minmax(0, 1fr) auto auto auto;
+    grid-template-columns: 132px minmax(0, 1fr) auto auto auto;
     align-items: center;
     gap: 1rem;
     padding: 0.875rem;
@@ -79,8 +79,8 @@
 
 .item-image {
     position: relative;
-    width: 112px;
-    height: 112px;
+    width: 132px;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -416,7 +416,7 @@
     }
 
     .cart-item {
-        grid-template-columns: 76px minmax(0, 1fr) auto;
+        grid-template-columns: 92px minmax(0, 1fr) auto;
         grid-template-areas:
             "img details remove"
             "img qty price";
@@ -426,8 +426,7 @@
 
     .item-image {
         grid-area: img;
-        width: 76px;
-        height: 76px;
+        width: 92px;
         align-self: center;
     }
 
