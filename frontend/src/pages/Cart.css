@@ -416,12 +416,14 @@
     }
 
     .cart-item {
-        grid-template-columns: 108px minmax(0, 1fr) auto;
+        position: relative;
+        grid-template-columns: 108px minmax(0, 1fr);
         grid-template-areas:
-            "img details remove"
-            "qty qty price";
-        gap: 0.5rem 0.4rem;
+            "img details"
+            "qty price";
+        gap: 0.5rem 0.5rem;
         padding: 0.75rem;
+        padding-right: 2.75rem;
     }
 
     .item-image {
@@ -482,11 +484,12 @@
     }
 
     .remove-btn {
-        grid-area: remove;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
         width: 34px;
         height: 34px;
-        align-self: center;
-        justify-self: end;
+        border-radius: var(--radius-md);
     }
 
     .cart-summary {
