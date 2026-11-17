@@ -243,16 +243,16 @@
         height: 150px;
     }
 
-    .item-price {
+    .wishlist-item .item-price {
         justify-content: center;
     }
 
-    .item-actions {
+    .wishlist-item .item-actions {
         flex-direction: row;
         width: 100%;
     }
 
-    .add-cart-btn {
+    .wishlist-item .add-cart-btn {
         flex: 1;
     }
 }
