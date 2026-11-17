@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { FiShoppingCart, FiHeart, FiShare2, FiMinus, FiPlus, FiCheck, FiTruck, FiShield, FiRefreshCw } from 'react-icons/fi';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { FiShoppingCart, FiHeart, FiShare2, FiMinus, FiPlus, FiCheck, FiTruck, FiShield, FiRefreshCw, FiArrowLeft } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
@@ -11,6 +11,7 @@ import './ProductDetail.css';
 
 const ProductDetail = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -139,6 +140,12 @@ const ProductDetail = () => {
     return (
         <div className="product-detail-page">
             <div className="container">
+                {/* Back Button */}
+                <button className="back-btn" onClick={() => navigate(-1)} aria-label="Orqaga">
+                    <FiArrowLeft />
+                    <span>Orqaga</span>
+                </button>
+
                 {/* Breadcrumb */}
                 <nav className="breadcrumb">
                     <Link to="/">Bosh sahifa</Link>
@@ -223,29 +230,13 @@ const ProductDetail = () => {
                             )}
                         </div>
 
-                        {/* Description */}
-                        <p className="product-description">{product.description}</p>
-
-                        {/* Features */}
-                        {product.features && (
-                            <div className="product-features">
-                                <h4>Xususiyatlari:</h4>
-                                <ul>
-                                    {product.features.map((feature, index) => (
-                                        <li key={index}>
-                                            <FiCheck /> {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-
                         {/* Actions */}
                         <div className="product-actions">
                             <div className="quantity-selector">
                                 <button
                                     onClick={() => setQuantity(q => Math.max(1, q - 1))}
                                     disabled={quantity <= 1}
+                                    aria-label="Miqdorni kamaytirish"
                                 >
                                     <FiMinus />
                                 </button>
@@ -253,6 +244,7 @@ const ProductDetail = () => {
                                 <button
                                     onClick={() => setQuantity(q => Math.min(product.stockCount || 10, q + 1))}
                                     disabled={quantity >= (product.stockCount || 10)}
+                                    aria-label="Miqdorni oshirish"
                                 >
                                     <FiPlus />
                                 </button>
@@ -270,14 +262,32 @@ const ProductDetail = () => {
                             <button
                                 className={`btn-icon wishlist-btn ${inWishlist ? 'active' : ''}`}
                                 onClick={handleToggleWishlist}
+                                aria-label="Istaklar ro'yxatiga qo'shish"
                             >
                                 <FiHeart />
                             </button>
 
-                            <button className="btn-icon" onClick={handleShare}>
+                            <button className="btn-icon" onClick={handleShare} aria-label="Ulashish">
                                 <FiShare2 />
                             </button>
                         </div>
+
+                        {/* Description */}
+                        <p className="product-description">{product.description}</p>
+
+                        {/* Features */}
+                        {product.features && (
+                            <div className="product-features">
+                                <h4>Xususiyatlari:</h4>
+                                <ul>
+                                    {product.features.map((feature, index) => (
+                                        <li key={index}>
+                                            <FiCheck /> {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
 
                         {/* Guarantees */}
                         <div className="product-guarantees">
