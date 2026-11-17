@@ -416,17 +416,17 @@
     }
 
     .cart-item {
-        grid-template-columns: 108px minmax(0, 1fr) auto;
+        grid-template-columns: 84px minmax(0, 1fr) auto;
         grid-template-areas:
             "img details remove"
-            "img qty price";
-        gap: 0.5rem 0.875rem;
-        padding: 1rem;
+            "qty qty price";
+        gap: 0.5rem 0.625rem;
+        padding: 0.75rem;
     }
 
     .item-image {
         grid-area: img;
-        width: 108px;
+        width: 84px;
         align-self: center;
     }
 
@@ -442,7 +442,7 @@
     }
 
     .item-name {
-        font-size: 0.9375rem;
+        font-size: 0.875rem;
         -webkit-line-clamp: 2;
         line-clamp: 2;
     }
