@@ -416,7 +416,7 @@
     }
 
     .cart-item {
-        grid-template-columns: 84px minmax(0, 1fr) auto;
+        grid-template-columns: 108px minmax(0, 1fr) auto;
         grid-template-areas:
             "img details remove"
             "qty qty price";
@@ -426,7 +426,7 @@
 
     .item-image {
         grid-area: img;
-        width: 84px;
+        width: 108px;
         align-self: center;
     }
 
