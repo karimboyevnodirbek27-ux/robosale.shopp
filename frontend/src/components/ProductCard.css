@@ -330,7 +330,7 @@
     }
 
     .product-image {
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 4 / 3;
         height: auto;
         margin: 0.5rem 0.5rem 0;
         padding: 0;
