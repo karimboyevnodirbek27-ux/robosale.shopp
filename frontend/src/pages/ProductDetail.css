@@ -499,7 +499,7 @@
 @media (max-width: 768px) {
     .product-detail-page {
         padding-top: 5.5rem;
-        padding-bottom: 8rem;
+        padding-bottom: 9.5rem;
     }
 
     .product-detail-page .product-detail-grid {
@@ -519,11 +519,13 @@
         margin-bottom: 0.625rem;
     }
 
-    /* Sticky action bar above mobile tab bar */
+    /* Always-visible buy bar above mobile tab bar */
     .product-detail-page .product-actions {
-        position: sticky;
-        bottom: 4.75rem;
-        z-index: 30;
+        position: fixed;
+        bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
+        left: 0.75rem;
+        right: 0.75rem;
+        z-index: 50;
         display: flex;
         align-items: center;
         gap: 0.5rem;
