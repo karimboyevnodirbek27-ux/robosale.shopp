@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { FiTrash2, FiMinus, FiPlus, FiArrowLeft, FiShoppingBag, FiSend } from 'react-icons/fi';
+import { FiTrash2, FiMinus, FiPlus, FiArrowLeft, FiShoppingBag, FiCreditCard } from 'react-icons/fi';
+import { FaTelegram } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { formatPrice, getImageUrl } from '../data/products';
 import './Cart.css';
@@ -131,14 +132,25 @@ const Cart = () => {
                             <span>{formatPrice(getTotalPrice())}</span>
                         </div>
 
-                        <button onClick={handleTelegramOrder} className="btn btn-primary checkout-btn telegram-btn">
-                            <FiSend />
-                            Telegramga buyurtma berish
-                        </button>
+                        <span className="payment-label">Buyurtma usulini tanlang</span>
 
+                        <button onClick={handleTelegramOrder} className="btn btn-primary checkout-btn telegram-btn">
+                            <FaTelegram />
+                            Telegram orqali buyurtma berish
+                        </button>
                         <div className="telegram-note">
                             <span>💬</span>
-                            <span>@{TELEGRAM_USERNAME} ga avtomatik yuboriladi</span>
+                            <span>Sotuvchi admin bilan gaplashib buyurtma rasmiylashtirasiz</span>
+                        </div>
+
+                        <button type="button" className="checkout-btn payme-btn" disabled title="Click/Payme integratsiyasi tez kunda qo'shiladi">
+                            <FiCreditCard />
+                            Click / Payme bilan to'lash
+                            <span className="soon-badge">Tez kunda</span>
+                        </button>
+                        <div className="payme-note">
+                            <span>💳</span>
+                            <span>Onlayn to'lov (Click, Payme) integratsiyasi yaqinda qo'shiladi</span>
                         </div>
 
                         <Link to="/products" className="continue-shopping">
