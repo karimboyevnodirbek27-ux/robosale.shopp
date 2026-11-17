@@ -11,7 +11,6 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
 import Auth from './pages/Auth';
 import OrderTracking from './pages/OrderTracking';
 import Wishlist from './pages/Wishlist';
@@ -34,7 +33,6 @@ function App() {
                       <Route path="/products" element={<Products />} />
                       <Route path="/product/:id" element={<ProductDetail />} />
                       <Route path="/cart" element={<Cart />} />
-                      <Route path="/checkout" element={<Checkout />} />
                       <Route path="/login" element={<Auth />} />
                       <Route path="/register" element={<Auth />} />
                       <Route path="/about" element={<About />} />
