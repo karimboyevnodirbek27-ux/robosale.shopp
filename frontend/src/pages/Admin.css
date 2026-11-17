@@ -341,14 +341,14 @@
     padding: 1.5rem;
 }
 
-.section-header {
+.admin-dashboard .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
 }
 
-.section-header h2 {
+.admin-dashboard .section-header h2 {
     font-size: 1.25rem;
 }
 
