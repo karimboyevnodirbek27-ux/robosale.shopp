@@ -50,7 +50,8 @@ router.get('/', async (req, res) => {
             Product.find(query)
                 .sort(sortOption)
                 .limit(limitNum)
-                .skip(skip),
+                .skip(skip)
+                .lean(),
             Product.countDocuments(query)
         ]);
 
