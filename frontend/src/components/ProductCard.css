@@ -330,9 +330,9 @@
     }
 
     .product-image {
-        aspect-ratio: 5 / 4;
+        aspect-ratio: 4 / 3;
         height: auto;
-        margin: 0.375rem 0.375rem 0;
+        margin: 0.25rem 0.25rem 0;
         padding: 0;
         border-radius: 12px;
     }
