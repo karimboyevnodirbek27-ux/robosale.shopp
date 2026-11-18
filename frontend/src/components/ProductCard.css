@@ -135,7 +135,7 @@
 }
 
 /* Quick Actions */
-.product-actions {
+.product-card .product-actions {
     position: absolute;
     right: 1rem;
     top: 50%;
@@ -152,7 +152,7 @@
     opacity: 1;
 }
 
-.product-actions .action-btn {
+.product-card .product-actions .action-btn {
     width: 40px;
     height: 40px;
     display: flex;
@@ -172,11 +172,11 @@
     transform: translateX(0);
 }
 
-.product-actions .action-btn:nth-child(2) {
+.product-card .product-actions .action-btn:nth-child(2) {
     transition-delay: 0.05s;
 }
 
-.product-actions .action-btn:hover {
+.product-card .product-actions .action-btn:hover {
     background: var(--gradient-primary);
     color: #fff;
     border-color: transparent;

@@ -238,10 +238,31 @@
 }
 
 /* Description */
+.product-detail-page .product-description-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+}
+
+.product-detail-page .product-description-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin: 0 0 0.625rem;
+}
+
 .product-detail-page .product-description {
     font-size: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
+    color: var(--text-primary);
+    opacity: 0.9;
+    line-height: 1.75;
     margin: 0;
 }
 
@@ -543,6 +564,16 @@
 
     .product-detail-page .back-btn {
         margin-bottom: 0.625rem;
+        min-height: 40px;
+    }
+
+    .product-detail-page .product-description-block {
+        padding: 0.875rem 1rem;
+    }
+
+    .product-detail-page .product-description {
+        font-size: 0.9375rem;
+        line-height: 1.65;
     }
 
     /* Always-visible buy bar above mobile tab bar */
@@ -551,8 +582,12 @@
         bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
         left: 0.75rem;
         right: 0.75rem;
+        top: auto;
         z-index: 50;
         display: flex;
+        flex-direction: row;
+        opacity: 1;
+        transform: none;
         align-items: center;
         gap: 0.5rem;
         margin: 0;

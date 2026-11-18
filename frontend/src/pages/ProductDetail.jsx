@@ -273,7 +273,10 @@ const ProductDetail = () => {
                         </div>
 
                         {/* Description */}
-                        <p className="product-description">{product.description}</p>
+                        <div className="product-description-block">
+                            <h3 className="product-description-title">Mahsulot tavsifi</h3>
+                            <p className="product-description">{product.description}</p>
+                        </div>
 
                         {/* Features */}
                         {product.features && (
