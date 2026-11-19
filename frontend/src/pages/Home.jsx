@@ -68,8 +68,9 @@ const Home = () => {
         fetchProducts();
     }, []);
 
-    // Get all products, sorted by featured first
-    const allProducts = [...products].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+    // Tartib: avval Arduino turlari, keyin qolgan mashhur mahsulotlar, so'ng qolganlari
+    const rank = (p) => (p.featured ? 0 : 2) + (p.category === 'arduino' ? 0 : 1);
+    const allProducts = [...products].sort((a, b) => rank(a) - rank(b));
     const displayProducts = showAllProducts ? allProducts : allProducts.slice(0, 12);
 
     return (
