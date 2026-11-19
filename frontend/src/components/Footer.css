@@ -23,6 +23,11 @@
     border-bottom: 1px solid var(--border-color);
 }
 
+/* Ichki sahifalarda qisqa footer: faqat brend va aloqa */
+.footer-compact .footer-main {
+    grid-template-columns: 1.5fr 1fr;
+}
+
 /* Brand */
 .footer-brand {
     display: flex;
@@ -296,6 +301,10 @@
 @media (max-width: 992px) {
     .footer-main {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-compact .footer-main {
+        grid-template-columns: 1fr;
     }
 
     .footer-brand {

@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FiPhone, FiMapPin } from 'react-icons/fi';
 import { FaTelegram, FaInstagram } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const { pathname } = useLocation();
+    const isHome = pathname === '/';
 
     return (
-        <footer className="footer">
+        <footer className={`footer${isHome ? '' : ' footer-compact'}`}>
             <div className="container">
                 {/* Main Footer */}
                 <div className="footer-main">
@@ -36,27 +38,31 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Links */}
-                    <div className="footer-links-group">
-                        <h4>Sahifalar</h4>
-                        <ul className="footer-links">
-                            <li><Link to="/">Asosiy</Link></li>
-                            <li><Link to="/products">Mahsulotlar</Link></li>
-                            <li><Link to="/cart">Savat</Link></li>
-                            <li><Link to="/about">Biz haqimizda</Link></li>
-                            <li><Link to="/contact">Aloqa</Link></li>
-                        </ul>
-                    </div>
+                    {/* Links — faqat bosh sahifada */}
+                    {isHome && (
+                        <>
+                            <div className="footer-links-group">
+                                <h4>Sahifalar</h4>
+                                <ul className="footer-links">
+                                    <li><Link to="/">Asosiy</Link></li>
+                                    <li><Link to="/products">Mahsulotlar</Link></li>
+                                    <li><Link to="/cart">Savat</Link></li>
+                                    <li><Link to="/about">Biz haqimizda</Link></li>
+                                    <li><Link to="/contact">Aloqa</Link></li>
+                                </ul>
+                            </div>
 
-                    <div className="footer-links-group">
-                        <h4>Kategoriyalar</h4>
-                        <ul className="footer-links">
-                            <li><Link to="/products?category=arduino">Arduino & MCU</Link></li>
-                            <li><Link to="/products?category=sensors">Sensorlar</Link></li>
-                            <li><Link to="/products?category=motors">Motorlar</Link></li>
-                            <li><Link to="/products?category=kits">Robot Kitlar</Link></li>
-                        </ul>
-                    </div>
+                            <div className="footer-links-group">
+                                <h4>Kategoriyalar</h4>
+                                <ul className="footer-links">
+                                    <li><Link to="/products?category=arduino">Arduino & MCU</Link></li>
+                                    <li><Link to="/products?category=sensors">Sensorlar</Link></li>
+                                    <li><Link to="/products?category=motors">Motorlar</Link></li>
+                                    <li><Link to="/products?category=kits">Robot Kitlar</Link></li>
+                                </ul>
+                            </div>
+                        </>
+                    )}
 
                     {/* Contact */}
                     <div className="footer-contact">
