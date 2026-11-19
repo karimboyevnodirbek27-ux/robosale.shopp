@@ -67,23 +67,6 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
 
     return (
         <Link to={`/product/${productId}`} className={`product-card ${viewMode === 'list' ? 'list-view' : ''}`}>
-            {/* Badge */}
-            {discountPercent > 0 && (
-                <span className="product-badge sale">
-                    -{discountPercent}%
-                </span>
-            )}
-            {product.featured && discountPercent === 0 && (
-                <span className="product-badge featured">
-                    Mashhur
-                </span>
-            )}
-            {product.stockCount === 0 && (
-                <span className="product-badge out-of-stock">
-                    Tugadi
-                </span>
-            )}
-
             {/* Wishlist Button */}
             <button
                 className={`wishlist-btn ${inWishlist ? 'active' : ''}`}
@@ -131,7 +114,18 @@ const ProductCard = ({ product, viewMode = 'grid' }) => {
 
             {/* Info */}
             <div className="product-info">
-                <span className="product-category">{product.category}</span>
+                <div className="product-meta">
+                    <span className="product-category">{product.category}</span>
+                    {discountPercent > 0 && (
+                        <span className="discount-chip">-{discountPercent}%</span>
+                    )}
+                    {product.featured && discountPercent === 0 && (
+                        <span className="featured-chip">Mashhur</span>
+                    )}
+                    {product.stockCount === 0 && (
+                        <span className="out-chip">Tugadi</span>
+                    )}
+                </div>
                 <h3 className="product-name">{product.name}</h3>
 
                 {/* Rating */}
