@@ -450,9 +450,12 @@ const ProductForm = () => {
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
-                                placeholder="Mahsulot haqida qisqa tavsif"
-                                rows="4"
+                                placeholder="Mahsulot haqida batafsil tavsif"
+                                rows="8"
                             />
+                            <small className="field-hint">
+                                Yangi qatordan yozing: «Asosiy xususiyatlari:» kabi sarlavhalar va «-» bilan boshlanadigan ro'yxatlar saytda chiroyli chiqadi.
+                            </small>
                         </div>
 
                         <div className="form-row">

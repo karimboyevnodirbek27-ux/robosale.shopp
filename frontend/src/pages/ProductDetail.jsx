@@ -9,6 +9,61 @@ import { formatPrice, getImageUrl } from '../data/products';
 import { apiFetch } from '../lib/api';
 import './ProductDetail.css';
 
+// Tavsifni bo'limlarga ajratib chiqarish: sarlavhalar, ro'yxatlar va paragraflar
+const renderProductDescription = (text) => {
+    if (!text) return null;
+
+    const lines = String(text).split(/\r?\n/);
+    const blocks = [];
+    let listItems = [];
+
+    const flushList = () => {
+        if (!listItems.length) return;
+        blocks.push(
+            <ul key={`list-${blocks.length}`} className="product-description-list">
+                {listItems}
+            </ul>
+        );
+        listItems = [];
+    };
+
+    lines.forEach((rawLine, index) => {
+        const line = rawLine.trim();
+
+        if (!line) {
+            flushList();
+            return;
+        }
+
+        if (/^[-•*]\s+/.test(line)) {
+            listItems.push(
+                <li key={`li-${index}`}>{line.replace(/^[-•*]\s+/, '')}</li>
+            );
+            return;
+        }
+
+        flushList();
+
+        if (line.length <= 40 && line.endsWith(':')) {
+            blocks.push(
+                <h4 key={`h-${index}`} className="product-description-subtitle">
+                    {line.replace(/:$/, '')}
+                </h4>
+            );
+            return;
+        }
+
+        blocks.push(
+            <p key={`p-${index}`} className="product-description-text">
+                {line}
+            </p>
+        );
+    });
+
+    flushList();
+    return blocks;
+};
+
 const ProductDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -78,7 +133,7 @@ const ProductDetail = () => {
         try {
             await navigator.share({
                 title: product.name,
-                text: product.description,
+                text: (product.description || '').split('\n')[0].slice(0, 200),
                 url: window.location.href
             });
         } catch {
@@ -275,7 +330,9 @@ const ProductDetail = () => {
                         {/* Description */}
                         <div className="product-description-block">
                             <h3 className="product-description-title">Mahsulot tavsifi</h3>
-                            <p className="product-description">{product.description}</p>
+                            <div className="product-description">
+                                {renderProductDescription(product.description)}
+                            </div>
                         </div>
 
                         {/* Features */}
