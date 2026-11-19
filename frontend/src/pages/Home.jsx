@@ -68,8 +68,9 @@ const Home = () => {
         fetchProducts();
     }, []);
 
-    // Tartib: avval Arduino turlari, keyin qolgan mashhur mahsulotlar, so'ng qolganlari
-    const rank = (p) => (p.featured ? 0 : 2) + (p.category === 'arduino' ? 0 : 1);
+    // Tartib: avval Arduino platasi turlari, keyin qolgan mashhur mahsulotlar, so'ng qolganlari
+    const isArduinoBoard = (p) => /^arduino\s+(uno|mega|nano|leonardo|mini|lilypad|micro|due)/i.test(p.name || '');
+    const rank = (p) => (p.featured ? 0 : 2) + (isArduinoBoard(p) ? 0 : 1);
     const allProducts = [...products].sort((a, b) => rank(a) - rank(b));
     const displayProducts = showAllProducts ? allProducts : allProducts.slice(0, 12);
 
