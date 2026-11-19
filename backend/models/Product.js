@@ -53,6 +53,22 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    // Bosh sahifadagi "Katta skidkalar" karuseli uchun
+    bigDiscount: {
+        type: Boolean,
+        default: false
+    },
+    bigDiscountPercent: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 99
+    },
+    bigDiscountAmount: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
     specifications: {
         type: Map,
         of: String

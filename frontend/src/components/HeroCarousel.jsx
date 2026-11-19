@@ -19,7 +19,24 @@ const HeroCarousel = ({ products = [] }) => {
 
     const slides = useMemo(() => {
         const list = Array.isArray(products) ? products : [];
-        // 1) Chegirmali mahsulotlar: eng katta -% birinchi
+        // 1) Admin "Katta skidka" deb belgilagan mahsulotlar (eng katta -% birinchi)
+        const bigDiscount = list
+            .filter((p) => p?.bigDiscount)
+            .map((p) => ({
+                ...p,
+                _discount:
+                    Number(p.bigDiscountPercent) ||
+                    (p.oldPrice > p.price
+                        ? Math.round((1 - p.price / p.oldPrice) * 100)
+                        : 0)
+            }))
+            .sort((a, b) => b._discount - a._discount);
+
+        if (bigDiscount.length) {
+            return bigDiscount.slice(0, MAX_SLIDES);
+        }
+
+        // 2) Hech kim belgilanmagan bo'lsa — chegirmali + featured (eski mantiq)
         const discounted = list
             .filter((p) => p?.oldPrice > p?.price)
             .map((p) => ({
@@ -27,7 +44,6 @@ const HeroCarousel = ({ products = [] }) => {
                 _discount: Math.round((1 - p.price / p.oldPrice) * 100)
             }))
             .sort((a, b) => b._discount - a._discount);
-        // 2) Yetmaganini featured bilan to'ldiramiz
         const featuredOnly = list.filter(
             (p) => p?.featured && !(p?.oldPrice > p?.price)
         );
@@ -89,7 +105,7 @@ const HeroCarousel = ({ products = [] }) => {
             aria-roledescription="karusel"
         >
             <div className="carousel-header">
-                <span className="carousel-title">{'\u{1F525}'} Bugungi skidkalar</span>
+                <span className="carousel-title">{'\u{1F525}'} Katta skidkalar</span>
                 <div className="carousel-dots" role="tablist">
                     {slides.map((slide, i) => (
                         <button

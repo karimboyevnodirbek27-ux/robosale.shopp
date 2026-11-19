@@ -224,7 +224,10 @@ const ProductForm = () => {
         category: 'arduino',
         stockCount: '10',
         image: '',
-        featured: false
+        featured: false,
+        bigDiscount: false,
+        bigDiscountPercent: '',
+        bigDiscountAmount: ''
     });
 
     useEffect(() => {
@@ -248,7 +251,10 @@ const ProductForm = () => {
                     category: p.category || 'arduino',
                     stockCount: String(p.stockCount || '10'),
                     image: p.image || '',
-                    featured: p.featured || false
+                    featured: p.featured || false,
+                    bigDiscount: p.bigDiscount || false,
+                    bigDiscountPercent: p.bigDiscountPercent ? String(p.bigDiscountPercent) : '',
+                    bigDiscountAmount: p.bigDiscountAmount ? String(p.bigDiscountAmount) : ''
                 });
             }
         } catch (error) {
@@ -331,11 +337,37 @@ const ProductForm = () => {
         }
 
         const priceValue = Number(formData.price);
-        const oldPriceValue = formData.oldPrice !== '' ? Number(formData.oldPrice) : null;
+        let oldPriceValue = formData.oldPrice !== '' ? Number(formData.oldPrice) : null;
+
+        // "Katta skidka" — foiz yoki summa bo'yicha asl narxni hisoblaymiz
+        const bigDiscount = Boolean(formData.bigDiscount);
+        let bdPercent = Number(formData.bigDiscountPercent) || 0;
+        let bdAmount = Number(formData.bigDiscountAmount) || 0;
 
         if (!Number.isFinite(priceValue) || priceValue < 0) {
             toast.error('Sotuv narxi noto‘g‘ri');
             return;
+        }
+
+        if (bigDiscount) {
+            if (bdPercent <= 0 && bdAmount <= 0) {
+                toast.error('Katta skidka uchun foiz yoki summani kiriting');
+                return;
+            }
+            if (bdPercent >= 95) {
+                toast.error('Skidka foizi 95% dan kichik bo‘lishi kerak');
+                return;
+            }
+            if (bdPercent > 0) {
+                oldPriceValue = Math.round(priceValue / (1 - bdPercent / 100));
+            } else {
+                oldPriceValue = priceValue + bdAmount;
+                bdPercent = Math.round((bdAmount / oldPriceValue) * 100);
+            }
+            bdAmount = Math.max(0, oldPriceValue - priceValue);
+        } else {
+            bdPercent = 0;
+            bdAmount = 0;
         }
 
         if (oldPriceValue !== null && (!Number.isFinite(oldPriceValue) || oldPriceValue <= 0)) {
@@ -360,7 +392,11 @@ const ProductForm = () => {
                     image: imageValue,
                     price: priceValue,
                     oldPrice: oldPriceValue,
-                    stockCount: Number(formData.stockCount)
+                    stockCount: Number(formData.stockCount),
+                    featured: Boolean(formData.featured),
+                    bigDiscount,
+                    bigDiscountPercent: bdPercent,
+                    bigDiscountAmount: bdAmount
                 })
             });
 
@@ -486,6 +522,49 @@ const ProductForm = () => {
                                 <span>Mashhur mahsulot</span>
                             </label>
                         </div>
+
+                        <div className="form-group checkbox-group">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="bigDiscount"
+                                    checked={formData.bigDiscount}
+                                    onChange={handleChange}
+                                />
+                                <span>🔥 Katta skidka (bosh sahifa karuselida chiqadi)</span>
+                            </label>
+                        </div>
+
+                        {formData.bigDiscount && (
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Skidka foizi (%)</label>
+                                    <input
+                                        type="number"
+                                        name="bigDiscountPercent"
+                                        value={formData.bigDiscountPercent}
+                                        onChange={handleChange}
+                                        placeholder="30"
+                                        min="0"
+                                        max="94"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Skidka summasi (so'm)</label>
+                                    <input
+                                        type="number"
+                                        name="bigDiscountAmount"
+                                        value={formData.bigDiscountAmount}
+                                        onChange={handleChange}
+                                        placeholder="50000"
+                                        min="0"
+                                    />
+                                    <small className="field-hint">
+                                        Bittasini kiriting — ikkinchisi avtomatik hisoblanadi. Asl narx ham avtomatik qo'yiladi.
+                                    </small>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="form-section">
