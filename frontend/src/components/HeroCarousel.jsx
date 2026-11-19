@@ -148,7 +148,10 @@ const HeroCarousel = ({ products = [] }) => {
                                 aria-label={slide.name}
                             >
                                 {discount > 0 && (
-                                    <span className="slide-discount">-{discount}%</span>
+                                    <span className="slide-discount">
+                                        <strong>-{discount}%</strong>
+                                        <em>SKIDKA</em>
+                                    </span>
                                 )}
                                 <img
                                     src={getImageUrl(slide.image)}
@@ -163,12 +166,22 @@ const HeroCarousel = ({ products = [] }) => {
                                 </Link>
                                 <div className="slide-bottom">
                                     <div className="slide-prices">
-                                        <span className="slide-price">
-                                            {formatPrice(slide.price)}
-                                        </span>
+                                        <div className="slide-price-row">
+                                            {slide.oldPrice > slide.price && (
+                                                <span className="slide-old-price">
+                                                    {formatPrice(slide.oldPrice)}
+                                                </span>
+                                            )}
+                                            {slide.oldPrice > slide.price && (
+                                                <span className="slide-price-arrow" aria-hidden="true">→</span>
+                                            )}
+                                            <span className="slide-price">
+                                                {formatPrice(slide.price)}
+                                            </span>
+                                        </div>
                                         {slide.oldPrice > slide.price && (
-                                            <span className="slide-old-price">
-                                                {formatPrice(slide.oldPrice)}
+                                            <span className="slide-save">
+                                                🔥 Tejaysiz: {formatPrice(slide.oldPrice - slide.price)}
                                             </span>
                                         )}
                                     </div>
